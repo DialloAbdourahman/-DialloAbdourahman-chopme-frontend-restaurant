@@ -1,0 +1,8 @@
+export const KEYS = {
+  BASE_URL: import.meta.env.VITE_BASE_URL,
+  WEB_SOCKET_URL: import.meta.env.VITE_WEB_SOCKET_URL,
+  ACCESS_TOKEN_KEY: import.meta.env.VITE_ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY: import.meta.env.VITE_REFRESH_TOKEN_KEY,
+  GOOGLE_PLACE_API_KEY: import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
+  PUBLIC_S3_PREFIX: import.meta.env.VITE_PUBLIC_S3_PREFIX,
+} as const;
