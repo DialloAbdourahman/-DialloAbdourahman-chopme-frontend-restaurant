@@ -2,6 +2,7 @@ import {
   EnumOrderCancelledReason,
   EnumOrderStatus,
   EnumRefundStatus,
+  EnumRestaurantMemberRole,
   type IMenuEntity,
   type IRestaurantEntity,
 } from "chopme-frontend-common";
@@ -91,6 +92,20 @@ export class ComputeUtils {
         return t("refundStatus.failedToInitiate");
       default:
         return status;
+    }
+  }
+
+  static formatRestaurantMemberRole(
+    t: TFunction,
+    role: EnumRestaurantMemberRole,
+  ) {
+    switch (role) {
+      case EnumRestaurantMemberRole.OWNER:
+        return t("members.roleOwner");
+      case EnumRestaurantMemberRole.MANAGER:
+        return t("members.roleManager");
+      default:
+        return role;
     }
   }
 }

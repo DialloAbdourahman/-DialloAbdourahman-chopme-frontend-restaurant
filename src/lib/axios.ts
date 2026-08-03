@@ -89,35 +89,3 @@ export const createApiClient = (baseURL: string): AxiosInstance => {
 };
 
 export const axiosBaseClient = createApiClient(KEYS.BASE_URL);
-
-// t = 0 ms
-// ---------
-// Request A sent with expired access token
-// Request B sent with expired access token
-
-// t = 100 ms
-// -----------
-// Request A gets 401
-// → Response interceptor starts refresh
-// → Reads Refresh Token 1 from localStorage
-// → Sends refresh request
-
-// t = 105 ms
-// -----------
-// Request B gets 401
-// → Response interceptor starts refresh
-// → Reads Refresh Token 1 from localStorage
-// → Sends refresh request
-
-// t = 150 ms
-// -----------
-// Refresh A succeeds
-// → Server returns Access Token 2 + Refresh Token 2
-// → Frontend stores them
-
-// t = 160 ms
-// -----------
-// Refresh B reaches the server
-// → It is still using Refresh Token 1
-// → But Refresh Token 1 has already been invalidated
-// → Server returns 401

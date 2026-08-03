@@ -16,7 +16,8 @@ const OrderStatusBadge = ({ status }: Props) => {
       : status === EnumOrderStatus.PAID
         ? "bg-green-100 text-green-700"
         : status === EnumOrderStatus.CANCELLED_BY_CUSTOMER ||
-            status === EnumOrderStatus.CANCELLED_BY_RESTAURANT
+            status === EnumOrderStatus.CANCELLED_BY_RESTAURANT ||
+            status === EnumOrderStatus.PAYMENT_FAILED
           ? "bg-red-100 text-red-700"
           : "bg-gray-100 text-gray-700";
 

@@ -4,9 +4,12 @@ import {
   Route,
   Navigate,
   useLocation,
+  Outlet,
 } from "react-router-dom";
 import Signin from "./pages/Signin";
 import Home from "./pages/Home";
+import RestaurantMembers from "./pages/RestaurantMembers";
+import CreateRestaurantMember from "./pages/CreateRestaurantMember";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
@@ -64,6 +67,25 @@ const Router = () => {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path="/members"
+          element={
+            <ProtectedRoute>
+              <ProtectedRestaurantMemberRoute
+                allowedRoles={[
+                  EnumRestaurantMemberRole.OWNER,
+                  EnumRestaurantMemberRole.MANAGER,
+                ]}
+              >
+                <Outlet />
+              </ProtectedRestaurantMemberRoute>
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<RestaurantMembers />} />
+          <Route path="create" element={<CreateRestaurantMember />} />
+        </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
