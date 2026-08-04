@@ -10,6 +10,8 @@ import Signin from "./pages/Signin";
 import Home from "./pages/Home";
 import RestaurantMembers from "./pages/RestaurantMembers";
 import CreateRestaurantMember from "./pages/CreateRestaurantMember";
+import MenuCategories from "./pages/MenuCategories";
+import CreateMenuCategory from "./pages/CreateMenuCategory";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
@@ -85,6 +87,25 @@ const Router = () => {
         >
           <Route index element={<RestaurantMembers />} />
           <Route path="create" element={<CreateRestaurantMember />} />
+        </Route>
+
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <ProtectedRestaurantMemberRoute
+                allowedRoles={[
+                  EnumRestaurantMemberRole.OWNER,
+                  EnumRestaurantMemberRole.MANAGER,
+                ]}
+              >
+                <Outlet />
+              </ProtectedRestaurantMemberRoute>
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<MenuCategories />} />
+          <Route path="create" element={<CreateMenuCategory />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

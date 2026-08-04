@@ -5,4 +5,5 @@ export const KEYS = {
   REFRESH_TOKEN_KEY: import.meta.env.VITE_REFRESH_TOKEN_KEY,
   GOOGLE_PLACE_API_KEY: import.meta.env.VITE_GOOGLE_PLACE_API_KEY,
   PUBLIC_S3_PREFIX: import.meta.env.VITE_PUBLIC_S3_PREFIX,
+  ROUND_TO_NEAREST: import.meta.env.VITE_ROUND_TO_NEAREST,
 } as const;

@@ -135,22 +135,29 @@ const RestaurantMembers = () => {
           );
         }
       } else {
-        showErrorToast(data.message ?? t("members.updateRoleError"));
+        switch (data.statusCode) {
+          case EnumStatusCode.NOT_ALLOWED:
+            showWarningToast(t("members.updateRoleNotAllowed"));
+            break;
+          case EnumStatusCode.NOT_FOUND:
+            showWarningToast(t("members.updateRoleNotFound"));
+            break;
+          default:
+            showErrorToast(t("members.updateRoleError"));
+        }
       }
     } catch (error) {
       const err = error as AxiosError<IOrchestrationResult<string>>;
       switch (err?.response?.data?.statusCode) {
         case EnumStatusCode.NOT_ALLOWED:
+          showWarningToast(t("members.updateRoleNotAllowed"));
+          break;
         case EnumStatusCode.NOT_FOUND:
-          showWarningToast(
-            err.response?.data?.message ?? t("members.updateRoleError"),
-          );
+          showWarningToast(t("members.updateRoleNotFound"));
           break;
         case EnumStatusCode.INTERNAL_SERVER_ERROR:
         default:
-          showErrorToast(
-            err.response?.data?.message ?? t("members.updateRoleError"),
-          );
+          showErrorToast(t("members.updateRoleError"));
       }
     } finally {
       setActionLoading(false);
@@ -170,24 +177,41 @@ const RestaurantMembers = () => {
         setDeleteModalOpen(false);
         setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
       } else {
-        showErrorToast(data.message ?? t("members.deleteError"));
+        switch (data.statusCode) {
+          case EnumStatusCode.CANNOT_DELETE_OWNER:
+            showWarningToast(t("members.cannotDeleteOwner"));
+            break;
+          case EnumStatusCode.CANNOT_DELETE_SELF:
+            showWarningToast(t("members.cannotDeleteSelf"));
+            break;
+          case EnumStatusCode.NOT_ALLOWED:
+            showWarningToast(t("members.deleteNotAllowed"));
+            break;
+          case EnumStatusCode.NOT_FOUND:
+            showWarningToast(t("members.deleteNotFound"));
+            break;
+          default:
+            showErrorToast(t("members.deleteError"));
+        }
       }
     } catch (error) {
       const err = error as AxiosError<IOrchestrationResult<string>>;
       switch (err?.response?.data?.statusCode) {
         case EnumStatusCode.CANNOT_DELETE_OWNER:
+          showWarningToast(t("members.cannotDeleteOwner"));
+          break;
         case EnumStatusCode.CANNOT_DELETE_SELF:
+          showWarningToast(t("members.cannotDeleteSelf"));
+          break;
         case EnumStatusCode.NOT_ALLOWED:
+          showWarningToast(t("members.deleteNotAllowed"));
+          break;
         case EnumStatusCode.NOT_FOUND:
-          showWarningToast(
-            err.response?.data?.message ?? t("members.deleteError"),
-          );
+          showWarningToast(t("members.deleteNotFound"));
           break;
         case EnumStatusCode.INTERNAL_SERVER_ERROR:
         default:
-          showErrorToast(
-            err.response?.data?.message ?? t("members.deleteError"),
-          );
+          showErrorToast(t("members.deleteError"));
       }
     } finally {
       setActionLoading(false);
@@ -209,22 +233,29 @@ const RestaurantMembers = () => {
         setRestoreModalOpen(false);
         setMembers((prev) => prev.filter((m) => m.id !== memberToRestore.id));
       } else {
-        showErrorToast(data.message ?? t("members.restoreError"));
+        switch (data.statusCode) {
+          case EnumStatusCode.NOT_ALLOWED:
+            showWarningToast(t("members.restoreNotAllowed"));
+            break;
+          case EnumStatusCode.NOT_FOUND:
+            showWarningToast(t("members.restoreNotFound"));
+            break;
+          default:
+            showErrorToast(t("members.restoreError"));
+        }
       }
     } catch (error) {
       const err = error as AxiosError<IOrchestrationResult<string>>;
       switch (err?.response?.data?.statusCode) {
         case EnumStatusCode.NOT_ALLOWED:
+          showWarningToast(t("members.restoreNotAllowed"));
+          break;
         case EnumStatusCode.NOT_FOUND:
-          showWarningToast(
-            err.response?.data?.message ?? t("members.restoreError"),
-          );
+          showWarningToast(t("members.restoreNotFound"));
           break;
         case EnumStatusCode.INTERNAL_SERVER_ERROR:
         default:
-          showErrorToast(
-            err.response?.data?.message ?? t("members.restoreError"),
-          );
+          showErrorToast(t("members.restoreError"));
       }
     } finally {
       setActionLoading(false);
@@ -474,7 +505,7 @@ const RestaurantMembers = () => {
         dontShowCancelButton={false}
         xlSize="1"
       >
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 text-left">
           <p className="text-sm text-text/70">
             {t("members.changeRoleDescription", {
               name: selectedMember?.user?.fullName ?? t("members.unknown"),
