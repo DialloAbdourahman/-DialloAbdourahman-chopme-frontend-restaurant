@@ -41,7 +41,7 @@ const RestaurantMembers = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { restaurantMember: currentMember } = useSelector(
-    (state: RootState) => state.user,
+    (state: RootState) => state?.user,
   );
 
   const initialPage = () => {
@@ -398,7 +398,7 @@ const RestaurantMembers = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {members.map((member) => {
-                  const isDeleted = !!member.deletedAt;
+                  const isDeleted = member.deleted;
                   return (
                     <div
                       key={member.id}
@@ -407,10 +407,10 @@ const RestaurantMembers = () => {
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="font-semibold text-text truncate">
-                            {member.user?.fullName ?? t("members.unknown")}
+                            {member?.user?.fullName ?? t("members.unknown")}
                           </p>
                           <p className="text-sm text-text/70 truncate">
-                            {member.user?.email ?? "-"}
+                            {member?.user?.email ?? "-"}
                           </p>
                         </div>
                         <span
