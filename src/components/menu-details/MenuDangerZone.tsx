@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { RefreshCcw, Trash2 } from "lucide-react";
+import { AlertTriangle, RefreshCcw, Trash2 } from "lucide-react";
 
 interface MenuDangerZoneProps {
   isDeleted: boolean;
@@ -16,9 +16,12 @@ const MenuDangerZone = ({
 
   return (
     <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 border border-red-100">
-      <h2 className="text-sm font-semibold text-red-600 mb-4">
-        {t("menus.dangerZone")}
-      </h2>
+      <div className="flex items-center gap-2 mb-4">
+        <AlertTriangle size={18} className="text-red-600" />
+        <h2 className="text-sm font-semibold text-red-600">
+          {t("menus.dangerZone")}
+        </h2>
+      </div>
       {isDeleted ? (
         <button
           type="button"

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
+import { AlertTriangle, Loader2 } from "lucide-react";
 
 interface RestaurantClosedSectionProps {
   isClosed: boolean;
@@ -16,9 +16,12 @@ const RestaurantClosedSection = ({
 
   return (
     <div className="bg-red-50 border border-red-200 rounded-2xl p-4 sm:p-6 mb-6">
-      <h2 className="text-sm font-semibold text-red-800 mb-2">
-        {t("restaurantDetails.dangerZone")}
-      </h2>
+      <div className="flex items-center gap-2 mb-2">
+        <AlertTriangle size={18} className="text-red-800" />
+        <h2 className="text-sm font-semibold text-red-800">
+          {t("restaurantDetails.dangerZone")}
+        </h2>
+      </div>
       <p className="text-sm text-red-700 mb-3">
         {t("restaurantDetails.closedDescription")}
       </p>

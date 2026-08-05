@@ -52,31 +52,6 @@ const RestaurantDetails = () => {
   const [imageKeyToDelete, setImageKeyToDelete] = useState<string | null>(null);
   const [closedModalOpen, setClosedModalOpen] = useState(false);
 
-  useEffect(() => {
-    const id = restaurantMember?.restaurant?.id;
-    if (!id) return;
-
-    const fetchRestaurant = async () => {
-      setLoading(true);
-      try {
-        const { data } = await RestaurantService.findOnePrivate(id);
-        if (
-          data.code === EnumStatusResponse.SUCCESS &&
-          data.statusCode === EnumStatusCode.RECOVERED_SUCCESSFULLY &&
-          data.data
-        ) {
-          setRestaurant(data.data);
-        }
-      } catch {
-        showErrorToast(t("restaurantDetails.fetchError"));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRestaurant();
-  }, [restaurantMember?.restaurant?.id]);
-
   const handleUpdate = (updated: IRestaurantEntity) => {
     setRestaurant(updated);
   };
@@ -188,6 +163,31 @@ const RestaurantDetails = () => {
       setTogglingClosed(false);
     }
   };
+
+  useEffect(() => {
+    const id = restaurantMember?.restaurant?.id;
+    if (!id) return;
+
+    const fetchRestaurant = async () => {
+      setLoading(true);
+      try {
+        const { data } = await RestaurantService.findOnePrivate(id);
+        if (
+          data.code === EnumStatusResponse.SUCCESS &&
+          data.statusCode === EnumStatusCode.RECOVERED_SUCCESSFULLY &&
+          data.data
+        ) {
+          setRestaurant(data.data);
+        }
+      } catch {
+        showErrorToast(t("restaurantDetails.fetchError"));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRestaurant();
+  }, [restaurantMember?.restaurant?.id]);
 
   if (loading) {
     return (

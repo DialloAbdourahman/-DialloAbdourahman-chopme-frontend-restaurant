@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ImagePlus, Loader2, X } from "lucide-react";
+import { ImagePlus, Images, Loader2, X } from "lucide-react";
 import { KEYS } from "../../utils/keys";
 
 interface RestaurantGallerySectionProps {
@@ -35,9 +35,12 @@ const RestaurantGallerySection = ({
 
   return (
     <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
-      <h2 className="text-sm font-semibold text-text mb-3">
-        {t("restaurantDetails.images")}
-      </h2>
+      <div className="flex items-center gap-2 mb-3">
+        <Images size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("restaurantDetails.images")}
+        </h2>
+      </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-3">
         {pictures.map((picture) => (
           <div

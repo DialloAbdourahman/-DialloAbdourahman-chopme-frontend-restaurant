@@ -278,6 +278,8 @@
     "availableStatus": "Available",
     "unavailableStatus": "Unavailable",
     "unavailableNotice": "This menu is currently unavailable for ordering",
+    "availabilityTitle": "Availability",
+    "availabilityDescription": "Disabling a menu hides it from customers without deleting it. You can re-enable it at any time.",
     "toggleAvailability": "Toggle availability",
     "enable": "Enable",
     "disable": "Disable",

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ChevronDown, Loader2, Plus } from "lucide-react";
+import { ChevronDown, ClipboardList, Loader2, Plus } from "lucide-react";
 import {
   createMenuSchema,
   EnumStatusCode,
@@ -113,9 +113,12 @@ const MenuDetailsForm = ({
 
   return (
     <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
-      <h2 className="text-sm font-semibold text-text mb-4">
-        {t("menus.details")}
-      </h2>
+      <div className="flex items-center gap-2 mb-4">
+        <ClipboardList size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("menus.details")}
+        </h2>
+      </div>
       <form onSubmit={handleSubmit(onSave)} className="flex flex-col gap-5">
         <div className="flex flex-col gap-1.5">
           <label className="text-xs font-semibold text-text uppercase tracking-wide">

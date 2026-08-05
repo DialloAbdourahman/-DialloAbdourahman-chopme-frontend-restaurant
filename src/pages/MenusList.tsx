@@ -530,9 +530,7 @@ const MenusList = () => {
         }
         description={
           menuToToggleAvailability?.available
-            ? t("menus.disableDescription", {
-                name: menuToToggleAvailability?.name ?? "",
-              })
+            ? t("menus.availabilityDescription")
             : t("menus.enableDescription", {
                 name: menuToToggleAvailability?.name ?? "",
               })

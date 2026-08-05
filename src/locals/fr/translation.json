@@ -281,6 +281,8 @@
     "availableStatus": "Disponible",
     "unavailableStatus": "Indisponible",
     "unavailableNotice": "Ce menu n'est actuellement pas disponible à la commande",
+    "availabilityTitle": "Disponibilité",
+    "availabilityDescription": "La désactivation d'un menu le rend invisible pour les clients sans le supprimer. Vous pourrez le réactiver à tout moment.",
     "toggleAvailability": "Activer/désactiver la disponibilité",
     "enable": "Activer",
     "disable": "Désactiver",

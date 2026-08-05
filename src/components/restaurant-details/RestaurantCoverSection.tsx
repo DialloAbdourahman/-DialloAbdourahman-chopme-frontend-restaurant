@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Camera, ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { Camera, Image, ImagePlus, Loader2, Trash2 } from "lucide-react";
 import { KEYS } from "../../utils/keys";
 
 interface RestaurantCoverSectionProps {
@@ -25,9 +25,12 @@ const RestaurantCoverSection = ({
 
   return (
     <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
-      <h2 className="text-sm font-semibold text-text mb-3">
-        {t("restaurantDetails.coverImage")}
-      </h2>
+      <div className="flex items-center gap-2 mb-3">
+        <Image size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("restaurantDetails.coverImage")}
+        </h2>
+      </div>
       <div className="relative w-full h-48 sm:h-60 md:h-64 rounded-2xl overflow-hidden bg-background flex items-center justify-center mb-3">
         {coverImage ? (
           <img

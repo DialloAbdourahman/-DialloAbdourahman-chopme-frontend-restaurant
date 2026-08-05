@@ -26,6 +26,7 @@ import { CategoryService } from "../services/category.service";
 import { KEYS } from "../utils/keys";
 import MenuGallerySection from "../components/menu-details/MenuGallerySection";
 import MenuDetailsForm from "../components/menu-details/MenuDetailsForm";
+import MenuAvailabilitySection from "../components/menu-details/MenuAvailabilitySection";
 import MenuDangerZone from "../components/menu-details/MenuDangerZone";
 import {
   showErrorToast,
@@ -436,20 +437,6 @@ const MenuDetails = () => {
                   : t("menus.unavailableStatus")}
               </span>
             )}
-            {canManage && !isDeleted && (
-              <button
-                type="button"
-                onClick={() => setAvailabilityModalOpen(true)}
-                disabled={togglingAvailability}
-                className={`inline-flex items-center rounded-lg px-2.5 py-1 text-xs font-medium transition-colors ${
-                  menu.available
-                    ? "bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200"
-                    : "bg-green-50 text-green-700 hover:bg-green-100 border border-green-200"
-                } disabled:opacity-60`}
-              >
-                {menu.available ? t("menus.disable") : t("menus.enable")}
-              </button>
-            )}
           </div>
         </div>
 
@@ -482,6 +469,14 @@ const MenuDetails = () => {
           roundToNearest={ROUND_TO_NEAREST}
           onMenuUpdated={(updated) => setMenu(updated)}
           onAddCategoryClick={() => setCreateCategoryModalOpen(true)}
+        />
+
+        {/* Availability */}
+        <MenuAvailabilitySection
+          available={menu.available}
+          canManage={canManage}
+          toggling={togglingAvailability}
+          onToggleClick={() => setAvailabilityModalOpen(true)}
         />
 
         {/* Danger zone */}

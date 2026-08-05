@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Loader2 } from "lucide-react";
+import { Info, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -66,9 +66,12 @@ const RestaurantInfoSection = ({
       onSubmit={handleSubmit(onSubmit)}
       className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6 space-y-4"
     >
-      <h2 className="text-sm font-semibold text-text">
-        {t("restaurantDetails.information")}
-      </h2>
+      <div className="flex items-center gap-2">
+        <Info size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("restaurantDetails.information")}
+        </h2>
+      </div>
 
       <div>
         <label className="block text-sm font-medium text-text mb-1">

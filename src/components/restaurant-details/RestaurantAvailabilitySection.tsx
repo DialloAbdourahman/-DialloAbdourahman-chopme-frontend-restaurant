@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Clock, Loader2, Plus, Trash2 } from "lucide-react";
 import { useFieldArray, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -96,9 +96,12 @@ const RestaurantAvailabilitySection = ({
       onSubmit={handleSubmit(onSubmit)}
       className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6"
     >
-      <h2 className="text-sm font-semibold text-text mb-3">
-        {t("restaurantDetails.availability")}
-      </h2>
+      <div className="flex items-center gap-2 mb-3">
+        <Clock size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("restaurantDetails.availability")}
+        </h2>
+      </div>
       {fields.map((field, index) => (
         <div
           key={field.id}

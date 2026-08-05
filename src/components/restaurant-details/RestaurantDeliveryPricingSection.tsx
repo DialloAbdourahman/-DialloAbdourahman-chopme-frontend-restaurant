@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Trash2, Truck } from "lucide-react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -154,9 +154,12 @@ const RestaurantDeliveryPricingSection = ({
       onSubmit={handleSubmit(onSubmit)}
       className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6"
     >
-      <h2 className="text-sm font-semibold text-text mb-3">
-        {t("restaurantDetails.deliveryPricing")}
-      </h2>
+      <div className="flex items-center gap-2 mb-3">
+        <Truck size={18} className="text-primary" />
+        <h2 className="text-sm font-semibold text-text">
+          {t("restaurantDetails.deliveryPricing")}
+        </h2>
+      </div>
       {rangeWarning && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-3 text-sm text-yellow-800">
           {rangeWarning}
