@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,28 +6,16 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   createCategorySchema,
-  createMenuSchema,
   EnumRestaurantMemberRole,
   EnumStatusCode,
   EnumStatusResponse,
   type CreateCategoryDto,
-  type CreateMenuDto,
   type ICategoryEntity,
   type IMenuEntity,
   type IOrchestrationResult,
 } from "chopme-frontend-common";
 import { AxiosError } from "axios";
-import {
-  ArrowLeft,
-  ChevronDown,
-  ImagePlus,
-  Loader2,
-  Plus,
-  RefreshCcw,
-  Trash2,
-  UtensilsCrossed,
-  X,
-} from "lucide-react";
+import { ArrowLeft, Loader2, UtensilsCrossed } from "lucide-react";
 import type { RootState } from "../store";
 import Navbar from "../components/Navbar";
 import Modal from "../components/Modal";
@@ -36,6 +24,9 @@ import ConfirmModal from "../components/ConfirmModal";
 import { MenuService } from "../services/menu.service";
 import { CategoryService } from "../services/category.service";
 import { KEYS } from "../utils/keys";
+import MenuGallerySection from "../components/menu-details/MenuGallerySection";
+import MenuDetailsForm from "../components/menu-details/MenuDetailsForm";
+import MenuDangerZone from "../components/menu-details/MenuDangerZone";
 import {
   showErrorToast,
   showSuccessToast,
@@ -58,7 +49,6 @@ const MenuDetails = () => {
 
   const [menu, setMenu] = useState<IMenuEntity | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
 
   const [categories, setCategories] = useState<ICategoryEntity[]>([]);
   const [categoriesLoading, setCategoriesLoading] = useState(false);
@@ -80,9 +70,6 @@ const MenuDetails = () => {
   const [availabilityModalOpen, setAvailabilityModalOpen] = useState(false);
   const [togglingAvailability, setTogglingAvailability] = useState(false);
 
-  const coverInputRef = useRef<HTMLInputElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-
   const canManage = useMemo(() => {
     return (
       currentMember?.role === EnumRestaurantMemberRole.OWNER ||
@@ -91,23 +78,6 @@ const MenuDetails = () => {
   }, [currentMember]);
 
   const isDeleted = !!menu?.deletedAt;
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<CreateMenuDto>({
-    resolver: zodResolver(createMenuSchema(ROUND_TO_NEAREST)),
-    defaultValues: {
-      name: "",
-      category: "",
-      description: "",
-      price: 0,
-      available: true,
-    },
-  });
 
   const {
     register: registerCategory,
@@ -133,13 +103,6 @@ const MenuDetails = () => {
         data.data
       ) {
         setMenu(data.data);
-        reset({
-          name: data.data.name,
-          category: data.data.category?.id ?? "",
-          description: data.data.description ?? "",
-          price: data.data.price,
-          available: data.data.available,
-        });
       }
     } catch {
       showErrorToast(t("menus.fetchError"));
@@ -198,53 +161,6 @@ const MenuDetails = () => {
     }
   };
 
-  const onSave = async (values: CreateMenuDto) => {
-    if (!menu) return;
-    setSaving(true);
-    try {
-      const { data } = await MenuService.update(menu.id, values);
-      if (
-        data.code === EnumStatusResponse.SUCCESS &&
-        data.statusCode === EnumStatusCode.UPDATED_SUCCESSFULLY &&
-        data.data
-      ) {
-        showSuccessToast(t("menus.updateSuccess"));
-        setMenu(data.data);
-      } else {
-        switch (data.statusCode) {
-          case EnumStatusCode.NOT_ALLOWED:
-            showWarningToast(t("menus.updateNotAllowed"));
-            break;
-          case EnumStatusCode.NOT_FOUND:
-            showWarningToast(t("menus.updateNotFound"));
-            break;
-          case EnumStatusCode.CATEGORY_DOES_NOT_EXIST:
-            showWarningToast(t("menus.categoryDoesNotExist"));
-            break;
-          default:
-            showErrorToast(t("menus.updateError"));
-        }
-      }
-    } catch (error) {
-      const err = error as AxiosError<IOrchestrationResult<string>>;
-      switch (err?.response?.data?.statusCode) {
-        case EnumStatusCode.NOT_ALLOWED:
-          showWarningToast(t("menus.updateNotAllowed"));
-          break;
-        case EnumStatusCode.NOT_FOUND:
-          showWarningToast(t("menus.updateNotFound"));
-          break;
-        case EnumStatusCode.CATEGORY_DOES_NOT_EXIST:
-          showWarningToast(t("menus.categoryDoesNotExist"));
-          break;
-        default:
-          showErrorToast(t("menus.updateError"));
-      }
-    } finally {
-      setSaving(false);
-    }
-  };
-
   const handleUploadError = (error: unknown) => {
     const err = error as AxiosError<IOrchestrationResult<string>>;
     switch (err?.response?.data?.statusCode) {
@@ -288,7 +204,6 @@ const MenuDetails = () => {
       handleUploadError(error);
     } finally {
       setUploadingCover(false);
-      if (coverInputRef.current) coverInputRef.current.value = "";
     }
   };
 
@@ -296,11 +211,9 @@ const MenuDetails = () => {
     if (!menu) return;
     if (menu.pictures.length >= MAX_RESTAURANT_IMAGES) {
       showWarningToast(t("menus.maxImagesReached"));
-      if (imageInputRef.current) imageInputRef.current.value = "";
       return;
     }
     if (!validateImageFile(file)) {
-      if (imageInputRef.current) imageInputRef.current.value = "";
       return;
     }
     setUploadingImage(true);
@@ -314,7 +227,6 @@ const MenuDetails = () => {
       handleUploadError(error);
     } finally {
       setUploadingImage(false);
-      if (imageInputRef.current) imageInputRef.current.value = "";
     }
   };
 
@@ -378,13 +290,6 @@ const MenuDetails = () => {
       const { data } = await MenuService.toggleAvailable(menu.id);
       if (data.data) {
         setMenu(data.data);
-        reset({
-          name: data.data.name,
-          category: data.data.category?.id ?? "",
-          description: data.data.description ?? "",
-          price: data.data.price,
-          available: data.data.available,
-        });
         showSuccessToast(t("menus.toggleAvailableSuccess"));
         setAvailabilityModalOpen(false);
       }
@@ -555,284 +460,37 @@ const MenuDetails = () => {
         )}
 
         {/* Gallery */}
-        <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
-          <h2 className="text-sm font-semibold text-text mb-3">
-            {t("menus.coverImage")}
-          </h2>
-          <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden bg-background flex items-center justify-center mb-3">
-            {menu.coverImage ? (
-              <img
-                src={`${KEYS.PUBLIC_S3_PREFIX}/${menu.coverImage}`}
-                alt={menu.name}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <UtensilsCrossed size={40} className="text-primary/30" />
-            )}
-            {(uploadingCover || deletingCover) && (
-              <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                <Loader2 className="animate-spin text-white" size={28} />
-              </div>
-            )}
-          </div>
-          {canManage && (
-            <div className="flex flex-wrap gap-2">
-              <input
-                ref={coverInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) onUploadCover(file);
-                }}
-              />
-              <button
-                type="button"
-                onClick={() => coverInputRef.current?.click()}
-                disabled={uploadingCover}
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold text-text hover:bg-card transition-colors disabled:opacity-60"
-              >
-                <ImagePlus size={16} />
-                {t("menus.uploadCoverImage")}
-              </button>
-              {menu.coverImage && (
-                <button
-                  type="button"
-                  onClick={() => setCoverDeleteModalOpen(true)}
-                  disabled={deletingCover}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors disabled:opacity-60"
-                >
-                  <Trash2 size={16} />
-                  {t("menus.removeCoverImage")}
-                </button>
-              )}
-            </div>
-          )}
-
-          <h2 className="text-sm font-semibold text-text mt-6 mb-3">
-            {t("menus.images")}
-          </h2>
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-3">
-            {menu.pictures.map((picture) => (
-              <div
-                key={picture}
-                className="relative aspect-square rounded-xl overflow-hidden bg-background group"
-              >
-                <img
-                  src={`${KEYS.PUBLIC_S3_PREFIX}/${picture}`}
-                  alt={menu.name}
-                  className="w-full h-full object-cover"
-                />
-                {deletingKey === picture && (
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                    <Loader2 className="animate-spin text-white" size={20} />
-                  </div>
-                )}
-                {canManage && deletingKey !== picture && (
-                  <button
-                    type="button"
-                    onClick={() => openImageDeleteModal(picture)}
-                    className="absolute top-1 right-1 rounded-full bg-black/60 p-1 text-white transition-opacity"
-                    title={t("menus.removeImage")}
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-              </div>
-            ))}
-            {menu.pictures.length === 0 && (
-              <div className="col-span-full text-sm text-gray-500 py-4 text-center">
-                {t("menus.noImages")}
-              </div>
-            )}
-          </div>
-          {canManage && (
-            <>
-              <input
-                ref={imageInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) onUploadImage(file);
-                }}
-              />
-              <button
-                type="button"
-                onClick={() => imageInputRef.current?.click()}
-                disabled={uploadingImage}
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2 text-sm font-semibold text-text hover:bg-card transition-colors disabled:opacity-60"
-              >
-                {uploadingImage ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <ImagePlus size={16} />
-                )}
-                {t("menus.uploadImage")}
-              </button>
-            </>
-          )}
-        </div>
+        <MenuGallerySection
+          menu={menu}
+          canManage={canManage}
+          uploadingCover={uploadingCover}
+          deletingCover={deletingCover}
+          uploadingImage={uploadingImage}
+          deletingKey={deletingKey}
+          onUploadCover={onUploadCover}
+          onUploadImage={onUploadImage}
+          onCoverDeleteClick={() => setCoverDeleteModalOpen(true)}
+          onImageDeleteClick={openImageDeleteModal}
+        />
 
         {/* Details form */}
-        <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 mb-6">
-          <h2 className="text-sm font-semibold text-text mb-4">
-            {t("menus.details")}
-          </h2>
-          <form onSubmit={handleSubmit(onSave)} className="flex flex-col gap-5">
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-text uppercase tracking-wide">
-                {t("menus.name")}
-              </label>
-              <input
-                type="text"
-                disabled={!canManage}
-                {...register("name")}
-                className={`w-full rounded-xl border bg-background px-4 py-3 text-sm text-text outline-none transition-colors disabled:opacity-60 ${
-                  errors.name
-                    ? "border-red-400"
-                    : "border-border focus:border-primary"
-                }`}
-              />
-              {errors.name && (
-                <p className="text-xs text-red-500">{errors.name.message}</p>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-text uppercase tracking-wide">
-                  {t("menus.category")}
-                </label>
-                {canManage && (
-                  <button
-                    type="button"
-                    onClick={() => setCreateCategoryModalOpen(true)}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
-                  >
-                    <Plus size={14} />
-                    {t("menus.addCategory")}
-                  </button>
-                )}
-              </div>
-              <div className="relative">
-                <select
-                  disabled={!canManage || categoriesLoading}
-                  {...register("category")}
-                  value={watch("category")}
-                  className={`w-full appearance-none rounded-xl border bg-background px-4 py-3 pr-10 text-sm text-text outline-none transition-colors disabled:opacity-60 ${
-                    errors.category
-                      ? "border-red-400"
-                      : "border-border focus:border-primary"
-                  }`}
-                >
-                  <option value="">{t("menus.selectCategory")}</option>
-                  {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  size={16}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
-                />
-              </div>
-              {errors.category && (
-                <p className="text-xs text-red-500">
-                  {errors.category.message}
-                </p>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-text uppercase tracking-wide">
-                {t("menus.description")}
-              </label>
-              <textarea
-                disabled={!canManage}
-                {...register("description")}
-                rows={3}
-                className={`w-full rounded-xl border bg-background px-4 py-3 text-sm text-text outline-none transition-colors disabled:opacity-60 ${
-                  errors.description
-                    ? "border-red-400"
-                    : "border-border focus:border-primary"
-                }`}
-              />
-              {errors.description && (
-                <p className="text-xs text-red-500">
-                  {errors.description.message}
-                </p>
-              )}
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-text uppercase tracking-wide">
-                {t("menus.price")}
-              </label>
-              <input
-                type="number"
-                min={ROUND_TO_NEAREST}
-                step={ROUND_TO_NEAREST}
-                disabled={!canManage}
-                {...register("price", { valueAsNumber: true })}
-                className={`w-full rounded-xl border bg-background px-4 py-3 text-sm text-text outline-none transition-colors disabled:opacity-60 ${
-                  errors.price
-                    ? "border-red-400"
-                    : "border-border focus:border-primary"
-                }`}
-              />
-              <p className="text-xs text-text/60">
-                {t("menus.priceHelp", { value: ROUND_TO_NEAREST })}
-              </p>
-              {errors.price && (
-                <p className="text-xs text-red-500">{errors.price.message}</p>
-              )}
-            </div>
-
-            {canManage && (
-              <div className="flex justify-end pt-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90 disabled:opacity-60 transition-all"
-                >
-                  {saving && <Loader2 size={18} className="animate-spin" />}
-                  {t("menus.save")}
-                </button>
-              </div>
-            )}
-          </form>
-        </div>
+        <MenuDetailsForm
+          menu={menu}
+          canManage={canManage}
+          categories={categories}
+          categoriesLoading={categoriesLoading}
+          roundToNearest={ROUND_TO_NEAREST}
+          onMenuUpdated={(updated) => setMenu(updated)}
+          onAddCategoryClick={() => setCreateCategoryModalOpen(true)}
+        />
 
         {/* Danger zone */}
         {canManage && (
-          <div className="bg-card rounded-2xl shadow-sm p-4 sm:p-6 border border-red-100">
-            <h2 className="text-sm font-semibold text-red-600 mb-4">
-              {t("menus.dangerZone")}
-            </h2>
-            {isDeleted ? (
-              <button
-                type="button"
-                onClick={() => setRestoreModalOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-green-600 hover:bg-green-50 transition-colors"
-              >
-                <RefreshCcw size={16} />
-                {t("menus.restore")}
-              </button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setDeleteModalOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors"
-              >
-                <Trash2 size={16} />
-                {t("menus.delete")}
-              </button>
-            )}
-          </div>
+          <MenuDangerZone
+            isDeleted={isDeleted}
+            onRestoreClick={() => setRestoreModalOpen(true)}
+            onDeleteClick={() => setDeleteModalOpen(true)}
+          />
         )}
       </main>
 

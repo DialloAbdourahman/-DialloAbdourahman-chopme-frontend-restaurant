@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ChefHat, LogOut, Menu, X } from "lucide-react";
+import { ChefHat, ChevronDown, LogOut, Menu, X } from "lucide-react";
 import {
   EnumRestaurantMemberRole,
   EnumStatusCode,
@@ -19,7 +19,10 @@ import LanguageSwitcher from "./LanguageSwitcher";
 const Navbar = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement>(null);
   const { user, restaurantMember } = useSelector(
     (state: RootState) => state.user,
   );
@@ -31,19 +34,34 @@ const Navbar = () => {
     );
   }, [restaurantMember]);
 
-  const navLinks = useMemo(() => {
+  const mainNavLinks = useMemo(() => {
     const links = [{ label: t("navbar.home"), href: "/" }];
     if (canManage) {
       links.push({ label: t("navbar.menus"), href: "/menus" });
       links.push({ label: t("navbar.categories"), href: "/categories" });
-      links.push({ label: t("navbar.members"), href: "/members" });
     }
     return links;
   }, [t, canManage]);
 
+  const settingsLinks = useMemo(() => {
+    return canManage
+      ? [
+          { label: t("navbar.restaurant"), href: "/restaurant" },
+          { label: t("navbar.members"), href: "/members" },
+        ]
+      : [];
+  }, [t, canManage]);
+
+  const isSettingsActive = useMemo(() => {
+    return settingsLinks.some((link) =>
+      location.pathname.startsWith(link.href),
+    );
+  }, [settingsLinks, location.pathname]);
+
   const handleLogout = async () => {
     try {
-      const response = await AuthService.logout();
+      const refreshToken = TokensService.getToken(KEYS.REFRESH_TOKEN_KEY);
+      const response = await AuthService.logout(refreshToken ?? undefined);
       if (
         response.data.code !== EnumStatusResponse.SUCCESS ||
         response.data.statusCode !== EnumStatusCode.LOGGED_OUT_SUCCESSFULLY
@@ -64,6 +82,26 @@ const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        settingsRef.current &&
+        !settingsRef.current.contains(event.target as Node)
+      ) {
+        setIsSettingsOpen(false);
+      }
+    };
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsSettingsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
+
   return (
     <>
       <nav className="bg-card shadow-sm sticky top-0 z-50 border-b border-border">
@@ -79,7 +117,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center gap-6">
             <LanguageSwitcher />
-            {navLinks.map((link) => (
+            {mainNavLinks.map((link) => (
               <NavLink
                 key={link.label}
                 to={link.href}
@@ -94,6 +132,48 @@ const Navbar = () => {
                 {link.label}
               </NavLink>
             ))}
+            {settingsLinks.length > 0 && (
+              <div className="relative" ref={settingsRef}>
+                <button
+                  type="button"
+                  onClick={() => setIsSettingsOpen((v) => !v)}
+                  aria-expanded={isSettingsOpen}
+                  className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+                    isSettingsActive
+                      ? "text-primary"
+                      : "text-gray-500 hover:text-primary"
+                  }`}
+                >
+                  {t("navbar.settings")}
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${
+                      isSettingsOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {isSettingsOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-48 rounded-xl border border-border bg-card shadow-lg overflow-hidden">
+                    {settingsLinks.map((link) => (
+                      <NavLink
+                        key={link.label}
+                        to={link.href}
+                        onClick={() => setIsSettingsOpen(false)}
+                        className={({ isActive }) =>
+                          `block px-4 py-2.5 text-sm font-medium transition-colors ${
+                            isActive
+                              ? "text-primary bg-primary/5"
+                              : "text-gray-500 hover:bg-muted hover:text-primary"
+                          }`
+                        }
+                      >
+                        {link.label}
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             {user ? (
               <button
                 type="button"
@@ -128,7 +208,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden border-t border-border px-4 pb-4 bg-card">
             <div className="flex flex-col gap-3 pt-4">
-              {navLinks.map((link) => (
+              {[...mainNavLinks, ...settingsLinks].map((link) => (
                 <NavLink
                   key={link.label}
                   to={link.href}

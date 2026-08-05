@@ -240,7 +240,7 @@ const MenusList = () => {
       }
     };
     fetchCategories();
-  }, [currentMember?.restaurant?.id, t]);
+  }, [currentMember?.restaurant?.id]);
 
   useEffect(() => {
     if (isInitial.current) {
