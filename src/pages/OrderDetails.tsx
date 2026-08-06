@@ -3,11 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
+  ChefHat,
   MapPin,
+  PackageCheck,
   Phone,
   RefreshCw,
   ShoppingBag,
+  Truck,
   Utensils,
+  XCircle,
 } from "lucide-react";
 import {
   EnumOrderStatus,
@@ -158,6 +162,12 @@ const OrderDetails = () => {
     setShowStatusModal(true);
   };
 
+  const statusUpdateMessages: Partial<Record<EnumOrderStatus, string>> = {
+    [EnumOrderStatus.PREPARING_ORDER]: "notification.preparingOrder",
+    [EnumOrderStatus.IN_DELIVERY]: "notification.inDelivery",
+    [EnumOrderStatus.DELIVERED]: "notification.delivered",
+  };
+
   const confirmUpdateStatus = async () => {
     if (!order || !orderId || !pendingStatus) return;
     setUpdatingStatus(true);
@@ -169,7 +179,8 @@ const OrderDetails = () => {
         res.data.data
       ) {
         setOrder(res.data.data);
-        showSuccessToast(t("order.statusUpdated"));
+        const messageKey = statusUpdateMessages[pendingStatus];
+        showSuccessToast(messageKey ? t(messageKey) : t("order.statusUpdated"));
       } else {
         showWarningToast(res.data.message ?? t("order.couldNotUpdateStatus"));
       }
@@ -296,6 +307,12 @@ const OrderDetails = () => {
       order.status === EnumOrderStatus.IN_DELIVERY);
 
   const nextStatuses = getAllowedNextStatuses(order.status);
+
+  const statusIcons: Partial<Record<EnumOrderStatus, React.ReactNode>> = {
+    [EnumOrderStatus.PREPARING_ORDER]: <ChefHat size={18} />,
+    [EnumOrderStatus.IN_DELIVERY]: <Truck size={18} />,
+    [EnumOrderStatus.DELIVERED]: <PackageCheck size={18} />,
+  };
 
   return (
     <div className="min-h-screen bg-background pb-16">
@@ -455,8 +472,10 @@ const OrderDetails = () => {
                 disabled={updatingStatus}
                 className="w-full bg-primary text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
-                {updatingStatus && (
+                {updatingStatus ? (
                   <RefreshCw size={16} className="animate-spin" />
+                ) : (
+                  (statusIcons[status] ?? null)
                 )}
                 {ComputeUtils.formatStatus(t, status)}
               </button>
@@ -471,6 +490,7 @@ const OrderDetails = () => {
             disabled={updatingStatus || cancelling}
             className="w-full mb-4 bg-red-500 text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
           >
+            <XCircle size={18} />
             {t("order.cancelOrder")}
           </button>
         )}

@@ -137,6 +137,13 @@
     "outOfStock": "Article en rupture de stock"
   },
 
+  "notification": {
+    "newOrder": "Nouvelle commande",
+    "preparingOrder": "La commande est en préparation",
+    "inDelivery": "La commande est en cours de livraison",
+    "delivered": "La commande a été livrée"
+  },
+
   "order": {
     "orders": "Commandes",
     "orderDetails": "Détails de la commande",

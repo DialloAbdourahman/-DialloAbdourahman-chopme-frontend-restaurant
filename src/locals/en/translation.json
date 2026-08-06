@@ -137,6 +137,13 @@
     "outOfStock": "Item out of stock"
   },
 
+  "notification": {
+    "newOrder": "New order",
+    "preparingOrder": "Order is now being prepared",
+    "inDelivery": "Order is now out for delivery",
+    "delivered": "Order has been delivered"
+  },
+
   "order": {
     "orders": "Orders",
     "orderDetails": "Order details",

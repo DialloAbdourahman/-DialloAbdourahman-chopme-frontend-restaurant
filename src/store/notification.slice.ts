@@ -1,28 +1,28 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { IOrderEntity } from "chopme-frontend-common";
+import type { INotification } from "chopme-frontend-common";
 
 export interface NotificationState {
-  orderStatusUpdate: IOrderEntity | null;
+  newNotification: INotification<any> | null;
 }
 
 const initialState: NotificationState = {
-  orderStatusUpdate: null,
+  newNotification: null,
 };
 
 export const notificationSlice = createSlice({
   name: "notification",
   initialState,
   reducers: {
-    setOrderStatusUpdate: (
+    setNewNotification: (
       state,
-      action: PayloadAction<IOrderEntity | null>,
+      action: PayloadAction<INotification<any> | null>,
     ) => {
-      state.orderStatusUpdate = action.payload;
+      state.newNotification = action.payload;
     },
   },
 });
 
-export const { setOrderStatusUpdate } = notificationSlice.actions;
+export const { setNewNotification } = notificationSlice.actions;
 
 export default notificationSlice.reducer;

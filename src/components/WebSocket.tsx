@@ -3,17 +3,40 @@ import { KEYS } from "../utils/keys";
 import { TokensService } from "../services/tokens.service";
 import type { RootState } from "../store";
 import {
+  EnumNotificationType,
+  EnumOrderStatus,
   EnumWebSocketEventType,
+  playNotificationSound,
+  type INotification,
   type IOrderEntity,
 } from "chopme-frontend-common";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { setOrderStatusUpdate } from "../store/notification.slice";
+import { setNewNotification } from "../store/notification.slice";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { showSuccessToast } from "../utils/toasts";
 
 const WebSocket = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+
+  const handleReceivedNotification = (newNotification: INotification<any>) => {
+    dispatch(setNewNotification(newNotification));
+    playNotificationSound();
+
+    if (newNotification.type === EnumNotificationType.ORDER_STATUS_CHANGED) {
+      const notification = newNotification as INotification<IOrderEntity>;
+      switch (notification.data.status) {
+        case EnumOrderStatus.PAID:
+          showSuccessToast(t("notification.newOrder"));
+          break;
+        default:
+          break;
+      }
+    }
+  };
 
   useEffect(() => {
     const token = TokensService.getToken(KEYS.ACCESS_TOKEN_KEY);
@@ -40,9 +63,9 @@ const WebSocket = () => {
     });
 
     socket.on(
-      EnumWebSocketEventType.ORDER_STATUS_CHANGED,
-      (data: IOrderEntity) => {
-        dispatch(setOrderStatusUpdate(data));
+      EnumWebSocketEventType.RESTAURANT_APPLICATION,
+      (data: INotification<any>) => {
+        handleReceivedNotification(data);
       },
     );
 

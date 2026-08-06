@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
+  EnumNotificationType,
   EnumStatusCode,
   EnumStatusResponse,
+  type INotification,
   type IOrderEntity,
 } from "chopme-frontend-common";
 import { ChevronRight, ShoppingBag } from "lucide-react";
@@ -14,6 +16,8 @@ import { OrderService } from "../services/order.service";
 import { ComputeUtils } from "../utils/compute-utils";
 import { RESTAURANT_VISIBLE_ORDER_STATUSES } from "../utils/constants";
 import { showErrorToast } from "../utils/toasts";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
 
 const LIMIT = 10;
 
@@ -21,6 +25,10 @@ const OrdersList = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const { t } = useTranslation();
+
+  const { newNotification } = useSelector(
+    (state: RootState) => state.notification,
+  );
 
   const statusOptions = [
     { value: "", label: t("common.all") },
@@ -100,6 +108,20 @@ const OrdersList = () => {
 
     fetchOrders();
   }, [status, page]);
+
+  useEffect(() => {
+    const notification = newNotification as INotification<IOrderEntity>;
+
+    if (
+      !notification ||
+      notification.type !== EnumNotificationType.ORDER_STATUS_CHANGED
+    )
+      return;
+
+    setOrders((prev) => [notification.data, ...prev]);
+
+    // dispatch(setOrderStatusUpdate(null));
+  }, [newNotification]);
 
   return (
     <div className="min-h-screen bg-background">
