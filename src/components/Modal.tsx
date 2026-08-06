@@ -94,7 +94,7 @@ const Modal = ({
                 className={`relative transform rounded-2xl bg-card px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full ${maxWidthClass} sm:p-6`}
               >
                 <div className="sm:flex sm:items-start">
-                  <div className="mt-3 text-center sm:mt-0 sm:text-left flex-grow w-full">
+                  <div className="mt-3 text-left flex-grow w-full">
                     <DialogTitle
                       as="h3"
                       className="text-base font-semibold leading-6 text-primary flex justify-between items-center"

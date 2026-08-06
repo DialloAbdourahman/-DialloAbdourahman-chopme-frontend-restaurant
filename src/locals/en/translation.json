@@ -25,6 +25,7 @@
     "members": "Team members",
     "categories": "Categories",
     "menus": "Menus",
+    "orders": "Orders",
     "settings": "Settings",
     "logoutSuccess": "You have been logged out."
   },
@@ -134,6 +135,45 @@
   "cancelledReason": {
     "tooLate": "Order was too late",
     "outOfStock": "Item out of stock"
+  },
+
+  "order": {
+    "orders": "Orders",
+    "orderDetails": "Order details",
+    "customer": "Customer",
+    "items": "Items",
+    "pricing": "Pricing",
+    "subtotal": "Subtotal",
+    "delivery": "Delivery fee",
+    "total": "Total",
+    "quantity": "Qty: {{qty}}",
+    "priceEach": "{{price}} each",
+    "itemCount": "{{count}} items",
+    "orderHash": "Order #{{id}}",
+    "orderHistory": "Order history",
+    "updateStatus": "Update status",
+    "updateStatusDescription": "Are you sure you want to mark this order as {{status}}? This action cannot be undone.",
+    "cancelOrder": "Cancel order",
+    "cancelRestaurantDescription": "Cancelling the order will trigger a refund to the customer.",
+    "cancelReason": "Cancellation reason",
+    "cancelledByRestaurant": "Cancelled by restaurant",
+    "cancelledByCustomer": "Cancelled by customer",
+    "cancelledAt": "Cancelled at:",
+    "reason": "Reason:",
+    "statusUpdated": "Order status updated",
+    "couldNotUpdateStatus": "Unable to update order status",
+    "invalidStatusTransition": "This status change is not allowed",
+    "orderCanOnlyBeCancelledWhenPaid": "The order can only be cancelled after it has been paid",
+    "couldNotCancelOrder": "Unable to cancel the order",
+    "orderCancelled": "Order cancelled successfully",
+    "couldNotLoadOrders": "Unable to load orders",
+    "noOrdersFound": "No orders found",
+    "orderNotFound": "Order not found",
+    "checkOrderInformation": "Please check the order information",
+    "invalidOrder": "Invalid order",
+    "failedToLoadClientDetails": "Unable to load customer details",
+    "refreshOrder": "Refresh order",
+    "menuItem": "Menu item"
   },
 
   "restaurantTypes": {

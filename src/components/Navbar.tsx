@@ -37,6 +37,7 @@ const Navbar = () => {
   const mainNavLinks = useMemo(() => {
     const links = [{ label: t("navbar.home"), href: "/" }];
     if (canManage) {
+      links.push({ label: t("navbar.orders"), href: "/orders" });
       links.push({ label: t("navbar.menus"), href: "/menus" });
       links.push({ label: t("navbar.categories"), href: "/categories" });
     }

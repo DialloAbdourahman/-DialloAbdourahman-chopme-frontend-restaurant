@@ -1,6 +1,15 @@
 import { EnumOrderStatus, EnumRestaurantType } from "chopme-frontend-common";
 import type { TFunction } from "i18next";
 
+export const RESTAURANT_VISIBLE_ORDER_STATUSES = [
+  EnumOrderStatus.PAID,
+  EnumOrderStatus.CANCELLED_BY_RESTAURANT,
+  EnumOrderStatus.PREPARING_ORDER,
+  EnumOrderStatus.IN_DELIVERY,
+  EnumOrderStatus.DELIVERED,
+  EnumOrderStatus.DISBURSED,
+];
+
 export const getRestaurantTypes = (t: TFunction) => [
   { title: t("restaurantTypes.fastFood"), type: EnumRestaurantType.FAST_FOOD },
   { title: t("restaurantTypes.cafe"), type: EnumRestaurantType.CAFE },

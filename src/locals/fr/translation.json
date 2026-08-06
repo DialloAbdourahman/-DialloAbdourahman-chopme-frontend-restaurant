@@ -25,6 +25,7 @@
     "members": "Membres de l'équipe",
     "categories": "Catégories",
     "menus": "Menus",
+    "orders": "Commandes",
     "settings": "Paramètres",
     "logoutSuccess": "Vous avez été déconnecté."
   },
@@ -134,6 +135,45 @@
   "cancelledReason": {
     "tooLate": "La commande était trop tardive",
     "outOfStock": "Article en rupture de stock"
+  },
+
+  "order": {
+    "orders": "Commandes",
+    "orderDetails": "Détails de la commande",
+    "customer": "Client",
+    "items": "Articles",
+    "pricing": "Tarification",
+    "subtotal": "Sous-total",
+    "delivery": "Frais de livraison",
+    "total": "Total",
+    "quantity": "Qté : {{qty}}",
+    "priceEach": "{{price}} l'unité",
+    "itemCount": "{{count}} articles",
+    "orderHash": "Commande #{{id}}",
+    "orderHistory": "Historique de la commande",
+    "updateStatus": "Mettre à jour le statut",
+    "updateStatusDescription": "Êtes-vous sûr de vouloir marquer cette commande comme {{status}} ? Cette action ne peut pas être annulée.",
+    "cancelOrder": "Annuler la commande",
+    "cancelRestaurantDescription": "L'annulation de la commande déclenchera un remboursement au client.",
+    "cancelReason": "Motif d'annulation",
+    "cancelledByRestaurant": "Annulé par le restaurant",
+    "cancelledByCustomer": "Annulé par le client",
+    "cancelledAt": "Annulé le :",
+    "reason": "Motif :",
+    "statusUpdated": "Statut de la commande mis à jour",
+    "couldNotUpdateStatus": "Impossible de mettre à jour le statut de la commande",
+    "invalidStatusTransition": "Ce changement de statut n'est pas autorisé",
+    "orderCanOnlyBeCancelledWhenPaid": "La commande ne peut être annulée qu'après avoir été payée",
+    "couldNotCancelOrder": "Impossible d'annuler la commande",
+    "orderCancelled": "Commande annulée avec succès",
+    "couldNotLoadOrders": "Impossible de charger les commandes",
+    "noOrdersFound": "Aucune commande trouvée",
+    "orderNotFound": "Commande introuvable",
+    "checkOrderInformation": "Veuillez vérifier les informations de la commande",
+    "invalidOrder": "Commande invalide",
+    "failedToLoadClientDetails": "Impossible de charger les détails du client",
+    "refreshOrder": "Actualiser la commande",
+    "menuItem": "Article du menu"
   },
 
   "restaurantTypes": {

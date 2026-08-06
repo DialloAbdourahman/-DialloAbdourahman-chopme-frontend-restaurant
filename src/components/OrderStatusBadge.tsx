@@ -13,7 +13,7 @@ const OrderStatusBadge = ({ status }: Props) => {
   const colorClass =
     status === EnumOrderStatus.CREATED
       ? "bg-yellow-100 text-yellow-700"
-      : status === EnumOrderStatus.PAID
+      : status === EnumOrderStatus.PAID || status === EnumOrderStatus.DISBURSED
         ? "bg-green-100 text-green-700"
         : status === EnumOrderStatus.CANCELLED_BY_CUSTOMER ||
             status === EnumOrderStatus.CANCELLED_BY_RESTAURANT ||

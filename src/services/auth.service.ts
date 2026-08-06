@@ -1,5 +1,6 @@
 import type {
   EmailPasswordLoginDto,
+  EnumUserLanguage,
   IAuthEntity,
   IOrchestrationResult,
   IUserEntity,
@@ -29,6 +30,16 @@ export const AuthService = {
 
   getMyProfile: () => {
     return axiosBaseClient.get<IOrchestrationResult<IUserEntity>>("/users/me");
+  },
+
+  updateMyProfile: (dto: {
+    fullName?: string;
+    language?: EnumUserLanguage;
+  }) => {
+    return axiosBaseClient.patch<IOrchestrationResult<IUserEntity>>(
+      "/users/me",
+      dto,
+    );
   },
 
   logout: (refreshToken?: string) => {
