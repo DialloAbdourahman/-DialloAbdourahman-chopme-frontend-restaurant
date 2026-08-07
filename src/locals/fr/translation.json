@@ -180,7 +180,9 @@
     "invalidOrder": "Commande invalide",
     "failedToLoadClientDetails": "Impossible de charger les détails du client",
     "refreshOrder": "Actualiser la commande",
-    "menuItem": "Article du menu"
+    "menuItem": "Article du menu",
+    "clientLocation": "Localisation du client",
+    "showItinerary": "Voir l'itinéraire"
   },
 
   "restaurantTypes": {

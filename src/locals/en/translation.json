@@ -180,7 +180,9 @@
     "invalidOrder": "Invalid order",
     "failedToLoadClientDetails": "Unable to load customer details",
     "refreshOrder": "Refresh order",
-    "menuItem": "Menu item"
+    "menuItem": "Menu item",
+    "clientLocation": "Client location",
+    "showItinerary": "Show itinerary"
   },
 
   "restaurantTypes": {

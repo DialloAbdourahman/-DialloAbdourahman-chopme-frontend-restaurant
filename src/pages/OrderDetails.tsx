@@ -5,6 +5,7 @@ import {
   ArrowLeft,
   ChefHat,
   MapPin,
+  Navigation,
   PackageCheck,
   Phone,
   RefreshCw,
@@ -13,6 +14,8 @@ import {
   Utensils,
   XCircle,
 } from "lucide-react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { KEYS } from "../utils/keys";
 import {
   EnumOrderStatus,
   EnumOrderCancelledReason,
@@ -60,6 +63,10 @@ const OrderDetails = () => {
   const [cancelReason, setCancelReason] = useState<EnumOrderCancelledReason>(
     EnumOrderCancelledReason.OUT_OF_STOCK,
   );
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: KEYS.GOOGLE_PLACE_API_KEY,
+  });
 
   const fetchOrder = useCallback(async (): Promise<boolean> => {
     if (!orderId) {
@@ -493,6 +500,52 @@ const OrderDetails = () => {
             <XCircle size={18} />
             {t("order.cancelOrder")}
           </button>
+        )}
+
+        {order.clientLocation?.coordinates?.length === 2 && (
+          <div className="bg-card rounded-2xl p-4 shadow-sm mb-4">
+            <div className="flex items-center gap-2 mb-3">
+              <MapPin size={18} className="text-primary" />
+              <h2 className="font-semibold text-text">
+                {t("order.clientLocation")}
+              </h2>
+            </div>
+
+            {isLoaded && (
+              <div className="h-64 sm:h-80 rounded-2xl overflow-hidden mb-3">
+                <GoogleMap
+                  mapContainerStyle={{ width: "100%", height: "100%" }}
+                  center={{
+                    lat: order.clientLocation.coordinates[1],
+                    lng: order.clientLocation.coordinates[0],
+                  }}
+                  zoom={15}
+                >
+                  <Marker
+                    position={{
+                      lat: order.clientLocation.coordinates[1],
+                      lng: order.clientLocation.coordinates[0],
+                    }}
+                  />
+                </GoogleMap>
+              </div>
+            )}
+
+            <button
+              type="button"
+              onClick={() => {
+                window.open(
+                  `https://www.google.com/maps/dir/?api=1&destination=${order.clientLocation.coordinates[1]},${order.clientLocation.coordinates[0]}`,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
+              }}
+              className="w-full bg-primary text-white rounded-xl py-3 text-sm font-semibold hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
+            >
+              <Navigation size={18} />
+              {t("order.showItinerary")}
+            </button>
+          </div>
         )}
 
         <div className="bg-card rounded-2xl p-4 shadow-sm">
