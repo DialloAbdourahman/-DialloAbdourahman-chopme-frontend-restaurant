@@ -3,7 +3,6 @@ import Router from "./router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useInitializeAfterAuth from "./hooks/useInitializeAfterAuth";
-import WebSocket from "./components/WebSocket";
 import LoadingScreen from "./components/LoadingScreen";
 
 function App() {
@@ -33,7 +32,6 @@ function App() {
         pauseOnHover
         theme="light"
       />
-      <WebSocket />
       <Router />
     </>
   );

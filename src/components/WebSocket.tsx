@@ -16,11 +16,14 @@ import { setNewNotification } from "../store/notification.slice";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { showSuccessToast } from "../utils/toasts";
+import { useNavigate } from "react-router-dom";
 
 const WebSocket = () => {
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const navigate = useNavigate();
 
   const handleReceivedNotification = (newNotification: INotification<any>) => {
     dispatch(setNewNotification(newNotification));
@@ -30,7 +33,11 @@ const WebSocket = () => {
       const notification = newNotification as INotification<IOrderEntity>;
       switch (notification.data.status) {
         case EnumOrderStatus.PAID:
-          showSuccessToast(t("notification.newOrder"));
+          showSuccessToast(t("notification.newOrder"), {
+            onClick: () => {
+              navigate(`/orders/${notification.data.id}`);
+            },
+          });
           break;
         default:
           break;

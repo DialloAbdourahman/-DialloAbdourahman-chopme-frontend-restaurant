@@ -22,6 +22,7 @@ import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
 import { EnumRestaurantMemberRole } from "chopme-frontend-common";
+import WebSocket from "./components/WebSocket";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { user, restaurantMember } = useSelector(
@@ -52,6 +53,7 @@ const ProtectedRestaurantMemberRoute = ({
 const Router = () => {
   return (
     <BrowserRouter>
+      <WebSocket />
       <Routes>
         <Route path="/signin" element={<Signin />} />
         <Route

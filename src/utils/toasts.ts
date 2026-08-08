@@ -10,30 +10,64 @@ const defaultOptions: ToastOptions = {
   draggable: true,
 };
 
-export const showSuccessToast = (message: string, options?: ToastOptions) => {
-  toast.success(message, { ...defaultOptions, ...options });
+export const showSuccessToast = (
+  message: string,
+  options?: ToastOptions,
+  onClick?: () => void,
+) => {
+  toast.success(message, {
+    ...defaultOptions,
+    ...options,
+    ...(onClick !== undefined && { onClick }),
+  });
 };
 
-export const showErrorToast = (message: string, options?: ToastOptions) => {
-  toast.error(message, { ...defaultOptions, ...options });
+export const showErrorToast = (
+  message: string,
+  options?: ToastOptions,
+  onClick?: () => void,
+) => {
+  toast.error(message, {
+    ...defaultOptions,
+    ...options,
+    ...(onClick !== undefined && { onClick }),
+  });
 };
 
-export const showInfoToast = (message: string, options?: ToastOptions) => {
-  toast.info(message, { ...defaultOptions, ...options });
+export const showInfoToast = (
+  message: string,
+  options?: ToastOptions,
+  onClick?: () => void,
+) => {
+  toast.info(message, {
+    ...defaultOptions,
+    ...options,
+    ...(onClick !== undefined && { onClick }),
+  });
 };
 
-export const showWarningToast = (message: string, options?: ToastOptions) => {
-  toast.warning(message, { ...defaultOptions, ...options });
+export const showWarningToast = (
+  message: string,
+  options?: ToastOptions,
+  onClick?: () => void,
+) => {
+  toast.warning(message, {
+    ...defaultOptions,
+    ...options,
+    ...(onClick !== undefined && { onClick }),
+  });
 };
 
 export const showPersistentInfoToast = (
   message: string | JSX.Element,
   options?: ToastOptions,
+  onClick?: () => void,
 ) => {
   toast.info(message, {
     ...defaultOptions,
     autoClose: false,
     closeOnClick: false,
     ...options,
+    ...(onClick !== undefined && { onClick }),
   });
 };

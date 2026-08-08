@@ -10,6 +10,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthService } from "../services/auth.service";
 import { RestaurantMemberService } from "../services/restaurantMember.service";
+import { FirebaseService } from "../services/firebase.service";
 import { setRestaurantMember, setUser } from "../store/user.slice";
 
 const useInitializeAfterAuth = ({
@@ -53,6 +54,8 @@ const useInitializeAfterAuth = ({
             // Silently ignore language sync failures
           }
         }
+
+        FirebaseService.registerForPushNotifications();
       }
 
       const restaurantMemberData = restaurantMemberResponse.data;
