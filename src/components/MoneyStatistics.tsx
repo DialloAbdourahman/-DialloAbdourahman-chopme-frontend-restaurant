@@ -58,7 +58,11 @@ const MONEY_BOXES: MoneyBox[] = [
   },
 ];
 
-const MoneyStatistics = () => {
+type Props = {
+  refreshSignal?: number;
+};
+
+const MoneyStatistics = ({ refreshSignal }: Props) => {
   const { t } = useTranslation();
   const { restaurantMember } = useSelector((state: RootState) => state.user);
   const { newNotification } = useSelector(
@@ -105,6 +109,13 @@ const MoneyStatistics = () => {
   }, [canView, fetchAmounts]);
 
   useEffect(() => {
+    if (canView && refreshSignal !== undefined) {
+      fetchAmounts();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshSignal]);
+
+  useEffect(() => {
     const notification = newNotification as INotification<IOrderEntity>;
 
     if (
@@ -127,7 +138,7 @@ const MoneyStatistics = () => {
   }
 
   return (
-    <div className="space-y-4 mt-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-text">{t("money.title")}</h2>
         <button

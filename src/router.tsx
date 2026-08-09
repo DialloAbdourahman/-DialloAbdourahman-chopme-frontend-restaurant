@@ -18,6 +18,7 @@ import MenuDetails from "./pages/MenuDetails";
 import RestaurantDetails from "./pages/RestaurantDetails";
 import OrdersList from "./pages/OrdersList";
 import OrderDetails from "./pages/OrderDetails";
+import Payments from "./pages/Payments";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
@@ -166,6 +167,19 @@ const Router = () => {
                 ]}
               >
                 <RestaurantDetails />
+              </ProtectedRestaurantMemberRoute>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/payments"
+          element={
+            <ProtectedRoute>
+              <ProtectedRestaurantMemberRoute
+                allowedRoles={[EnumRestaurantMemberRole.OWNER]}
+              >
+                <Payments />
               </ProtectedRestaurantMemberRoute>
             </ProtectedRoute>
           }

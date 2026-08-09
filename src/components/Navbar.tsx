@@ -34,6 +34,10 @@ const Navbar = () => {
     );
   }, [restaurantMember]);
 
+  const isOwner = useMemo(() => {
+    return restaurantMember?.role === EnumRestaurantMemberRole.OWNER;
+  }, [restaurantMember]);
+
   const mainNavLinks = useMemo(() => {
     const links = [{ label: t("navbar.home"), href: "/" }];
     if (canManage) {
@@ -45,13 +49,16 @@ const Navbar = () => {
   }, [t, canManage]);
 
   const settingsLinks = useMemo(() => {
-    return canManage
-      ? [
-          { label: t("navbar.restaurant"), href: "/restaurant" },
-          { label: t("navbar.members"), href: "/members" },
-        ]
-      : [];
-  }, [t, canManage]);
+    if (!canManage) return [];
+    const links = [
+      { label: t("navbar.restaurant"), href: "/restaurant" },
+      { label: t("navbar.members"), href: "/members" },
+    ];
+    if (isOwner) {
+      links.push({ label: t("navbar.payments"), href: "/payments" });
+    }
+    return links;
+  }, [t, canManage, isOwner]);
 
   const isSettingsActive = useMemo(() => {
     return settingsLinks.some((link) =>

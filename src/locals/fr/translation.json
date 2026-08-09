@@ -44,6 +44,33 @@
     "collectibleAfterDeliveryDesc": "Commandes en cours, payées mais pas encore livrées"
   },
 
+  "payments": {
+    "noWalletTitle": "Aucun moyen de paiement configuré",
+    "noWalletDescription": "Ajoutez un portefeuille mobile à votre restaurant pour commencer à recevoir des paiements.",
+    "setUpWallet": "Configurer le moyen de paiement"
+  },
+
+  "transfers": {
+    "title": "Virements",
+    "requestTransfer": "Demander un virement",
+    "allStatuses": "Tous les statuts",
+    "empty": "Aucun virement pour le moment",
+    "fetchError": "Impossible de charger les virements",
+    "createSuccess": "Virement demandé avec succès",
+    "createError": "Impossible de demander le virement",
+    "noWallet": "Veuillez d'abord configurer un moyen de paiement",
+    "noEligibleOrders": "Aucune commande livrée disponible pour un virement",
+    "ordersCount": "{{count}} commande",
+    "ordersCount_other": "{{count}} commandes",
+    "confirmTitle": "Demander un virement",
+    "confirmDescription": "Vous êtes sur le point de demander un virement de {{amount}} FCFA pour les commandes livrées. Voulez-vous continuer ?",
+    "statusCreated": "Créé",
+    "statusInitiated": "En cours",
+    "statusFailedToInitiate": "Échec du lancement",
+    "statusCompleted": "Terminé",
+    "statusFailed": "Échoué"
+  },
+
   "navbar": {
     "home": "Accueil",
     "restaurant": "Mon restaurant",
@@ -51,6 +78,7 @@
     "categories": "Catégories",
     "menus": "Menus",
     "orders": "Commandes",
+    "payments": "Paiements",
     "settings": "Paramètres",
     "logoutSuccess": "Vous avez été déconnecté."
   },

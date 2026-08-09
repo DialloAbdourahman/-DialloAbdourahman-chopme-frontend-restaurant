@@ -44,6 +44,33 @@
     "collectibleAfterDeliveryDesc": "Orders in progress, paid but not yet delivered"
   },
 
+  "payments": {
+    "noWalletTitle": "No payment method set up",
+    "noWalletDescription": "Add a mobile wallet to your restaurant so you can start receiving payments.",
+    "setUpWallet": "Set up payment method"
+  },
+
+  "transfers": {
+    "title": "Transfers",
+    "requestTransfer": "Request a transfer",
+    "allStatuses": "All statuses",
+    "empty": "No transfers yet",
+    "fetchError": "Unable to load transfers",
+    "createSuccess": "Transfer requested successfully",
+    "createError": "Unable to request transfer",
+    "noWallet": "Please set up a payment method first",
+    "noEligibleOrders": "No delivered orders available for transfer",
+    "ordersCount": "{{count}} order",
+    "ordersCount_other": "{{count}} orders",
+    "confirmTitle": "Request a transfer",
+    "confirmDescription": "You are about to request a transfer of {{amount}} FCFA for delivered orders. Do you want to continue?",
+    "statusCreated": "Created",
+    "statusInitiated": "In progress",
+    "statusFailedToInitiate": "Failed to initiate",
+    "statusCompleted": "Completed",
+    "statusFailed": "Failed"
+  },
+
   "navbar": {
     "home": "Home",
     "restaurant": "My restaurant",
@@ -51,6 +78,7 @@
     "categories": "Categories",
     "menus": "Menus",
     "orders": "Orders",
+    "payments": "Payments",
     "settings": "Settings",
     "logoutSuccess": "You have been logged out."
   },

@@ -3,6 +3,7 @@ import {
   EnumOrderStatus,
   EnumRefundStatus,
   EnumRestaurantMemberRole,
+  EnumTransferStatuses,
   type IMenuEntity,
   type IRestaurantEntity,
 } from "chopme-frontend-common";
@@ -90,6 +91,23 @@ export class ComputeUtils {
         return t("refundStatus.failed");
       case EnumRefundStatus.FAILED_TO_INITIATE:
         return t("refundStatus.failedToInitiate");
+      default:
+        return status;
+    }
+  }
+
+  static formatTransferStatus(t: TFunction, status: EnumTransferStatuses) {
+    switch (status) {
+      case EnumTransferStatuses.CREATED:
+        return t("transfers.statusCreated");
+      case EnumTransferStatuses.INITIATED:
+        return t("transfers.statusInitiated");
+      case EnumTransferStatuses.FAILED_TO_INITIATE:
+        return t("transfers.statusFailedToInitiate");
+      case EnumTransferStatuses.COMPLETED:
+        return t("transfers.statusCompleted");
+      case EnumTransferStatuses.FAILED:
+        return t("transfers.statusFailed");
       default:
         return status;
     }
