@@ -19,6 +19,31 @@
     "cannotUndo": "This action cannot be undone."
   },
 
+  "home": {
+    "statistics": "Order statistics",
+    "newOrders": "New orders",
+    "menuStatistics": "Menu statistics",
+    "period": "Period",
+    "periodToday": "Today",
+    "periodLast7Days": "Last 7 days",
+    "periodLastMonth": "Last month",
+    "periodLastYear": "Last year",
+    "totalOrders": "Total orders",
+    "noMenuStatistics": "No orders found for this period",
+    "ordersByMenu": "Orders by menu",
+    "orderDistribution": "Order distribution"
+  },
+
+  "money": {
+    "title": "Money",
+    "collected": "Amount collected",
+    "collectedDesc": "Already disbursed to your account",
+    "collectibleNow": "Collectible now",
+    "collectibleNowDesc": "Delivered orders ready to be paid out",
+    "collectibleAfterDelivery": "Collectible after delivery",
+    "collectibleAfterDeliveryDesc": "Orders in progress, paid but not yet delivered"
+  },
+
   "navbar": {
     "home": "Home",
     "restaurant": "My restaurant",

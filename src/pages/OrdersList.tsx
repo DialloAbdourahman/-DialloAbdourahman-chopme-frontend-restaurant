@@ -8,7 +8,7 @@ import {
   type INotification,
   type IOrderEntity,
 } from "chopme-frontend-common";
-import { ChevronRight, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import Navbar from "../components/Navbar";
 import OrderStatusBadge from "../components/OrderStatusBadge";
 import Pagination from "../components/Pagination";
@@ -129,10 +129,20 @@ const OrdersList = () => {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-12">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
-          <h1 className="text-xl font-bold text-text flex items-center gap-2">
-            <ShoppingBag size={22} className="text-primary" />
-            {t("order.orders")}
-          </h1>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="rounded-lg p-2 text-text/70 hover:bg-card hover:text-primary transition-colors"
+              aria-label={t("common.back")}
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-xl font-bold text-text flex items-center gap-2">
+              <ShoppingBag size={22} className="text-primary" />
+              {t("order.orders")}
+            </h1>
+          </div>
 
           <select
             value={status}

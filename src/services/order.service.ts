@@ -23,6 +23,25 @@ export const OrderService = {
     );
   },
 
+  countRestaurantOrders: (status: EnumOrderStatus) => {
+    return axiosBaseClient.get<IOrchestrationResult<{ total: number }>>(
+      `/orders/restaurant-orders/count?status=${status}`,
+    );
+  },
+
+  sumRestaurantOrdersAmount: (
+    statuses: EnumOrderStatus[],
+    excludeTransferred?: boolean,
+  ) => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("statuses", statuses.join(","));
+    if (excludeTransferred) searchParams.set("excludeTransferred", "true");
+
+    return axiosBaseClient.get<IOrchestrationResult<{ total: number }>>(
+      `/orders/restaurant-orders/sum-amount?${searchParams.toString()}`,
+    );
+  },
+
   getRestaurantOrder: (orderId: string) => {
     return axiosBaseClient.get<IOrchestrationResult<IOrderEntity>>(
       `/orders/${orderId}/restaurant`,

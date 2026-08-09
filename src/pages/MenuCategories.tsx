@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { AxiosError } from "axios";
 import {
+  ArrowLeft,
   Plus,
   Search,
   Trash2,
@@ -302,9 +303,19 @@ const MenuCategories = () => {
       <Navbar />
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <h1 className="text-2xl font-bold text-text">
-            {t("categories.title")}
-          </h1>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="rounded-lg p-2 text-text/70 hover:bg-card hover:text-primary transition-colors"
+              aria-label={t("common.back")}
+            >
+              <ArrowLeft size={20} />
+            </button>
+            <h1 className="text-2xl font-bold text-text">
+              {t("categories.title")}
+            </h1>
+          </div>
           {canManage && (
             <button
               type="button"

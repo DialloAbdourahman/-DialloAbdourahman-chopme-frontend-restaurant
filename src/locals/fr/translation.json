@@ -19,6 +19,31 @@
     "cannotUndo": "Cette action ne peut pas être annulée."
   },
 
+  "home": {
+    "statistics": "Statistiques des commandes",
+    "newOrders": "Nouvelles commandes",
+    "menuStatistics": "Statistiques des menus",
+    "period": "Période",
+    "periodToday": "Aujourd'hui",
+    "periodLast7Days": "7 derniers jours",
+    "periodLastMonth": "Dernier mois",
+    "periodLastYear": "Dernière année",
+    "totalOrders": "Commandes totales",
+    "noMenuStatistics": "Aucune commande trouvée pour cette période",
+    "ordersByMenu": "Commandes par menu",
+    "orderDistribution": "Répartition des commandes"
+  },
+
+  "money": {
+    "title": "Argent",
+    "collected": "Montant collecté",
+    "collectedDesc": "Déjà versé sur votre compte",
+    "collectibleNow": "Collectable maintenant",
+    "collectibleNowDesc": "Commandes livrées prêtes à être versées",
+    "collectibleAfterDelivery": "Collectable après livraison",
+    "collectibleAfterDeliveryDesc": "Commandes en cours, payées mais pas encore livrées"
+  },
+
   "navbar": {
     "home": "Accueil",
     "restaurant": "Mon restaurant",

@@ -89,4 +89,12 @@ export const MenuService = {
       `/menus/${id}/cover-image`,
     );
   },
+
+  getOrderStats: (params: { startDate?: string; endDate?: string }) => {
+    return axiosBaseClient.get<
+      IOrchestrationResult<
+        { menuId: string; menuName: string; totalOrders: number }[]
+      >
+    >("/menus/restaurant/order-stats", { params });
+  },
 };
