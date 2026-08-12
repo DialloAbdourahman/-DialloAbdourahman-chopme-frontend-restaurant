@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "./store";
 import { EnumRestaurantMemberRole } from "chopme-frontend-common";
 import WebSocket from "./components/WebSocket";
+import Footer from "./components/Footer";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { user, restaurantMember } = useSelector(
@@ -51,9 +52,12 @@ const ProtectedRestaurantMemberRoute = ({
   return isAllowed ? <>{children}</> : <Navigate to="/" replace />;
 };
 
-const Router = () => {
+const AppContent = () => {
+  const { pathname } = useLocation();
+  const showFooter = pathname !== "/signin";
+
   return (
-    <BrowserRouter>
+    <>
       <WebSocket />
       <Routes>
         <Route path="/signin" element={<Signin />} />
@@ -187,6 +191,15 @@ const Router = () => {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      {showFooter && <Footer />}
+    </>
+  );
+};
+
+const Router = () => {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 };

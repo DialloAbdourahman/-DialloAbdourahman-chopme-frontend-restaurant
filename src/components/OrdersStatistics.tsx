@@ -130,7 +130,7 @@ const OrdersStatistics = () => {
               type="button"
               onClick={() => handleBoxClick(box.status)}
               className={`relative overflow-hidden flex flex-col gap-1 rounded-2xl bg-white p-5 text-left shadow-sm transition-all hover:shadow-md active:scale-95 ${
-                isNewOrders && count > 0 ? "ring-2 ring-primary" : ""
+                isNewOrders && count > 0 ? "ring-2 ring-green-500" : ""
               }`}
             >
               <span
@@ -152,7 +152,7 @@ const OrdersStatistics = () => {
                 {t(box.labelKey)}
               </p>
               {isNewOrders && count > 0 && (
-                <span className="absolute right-3 top-3 h-2.5 w-2.5 rounded-full bg-primary" />
+                <span className="absolute right-3 top-3 h-2.5 w-2.5 rounded-full bg-green-500" />
               )}
             </button>
           );

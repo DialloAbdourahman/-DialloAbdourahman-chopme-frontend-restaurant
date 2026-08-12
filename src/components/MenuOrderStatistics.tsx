@@ -16,7 +16,7 @@ import {
   Select,
   type SelectChangeEvent,
 } from "@mui/material";
-import { RefreshCcw } from "lucide-react";
+import { BarChart3, RefreshCcw } from "lucide-react";
 import { MenuService } from "../services/menu.service";
 import type { RootState } from "../store";
 
@@ -124,6 +124,8 @@ const MenuOrderStatistics = () => {
     setPeriod(event.target.value as PeriodOption);
   };
 
+  const hasOrders = stats.some((stat) => stat.totalOrders > 0);
+
   return (
     <div className="space-y-4 mt-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
@@ -166,10 +168,16 @@ const MenuOrderStatistics = () => {
         </div>
       </div>
 
-      {stats.length === 0 && !loading ? (
-        <div className="rounded-2xl bg-card p-4 shadow-sm">
-          <p className="text-sm text-gray-400 text-center py-8">
+      {!hasOrders && !loading ? (
+        <div className="rounded-2xl bg-card p-8 shadow-sm flex flex-col items-center justify-center text-center gap-3">
+          <div className="rounded-full bg-gray-100 p-4">
+            <BarChart3 size={32} className="text-gray-400" />
+          </div>
+          <p className="text-base font-semibold text-text">
             {t("home.noMenuStatistics")}
+          </p>
+          <p className="text-sm text-gray-400 max-w-xs">
+            {t("home.noMenuStatisticsDescription")}
           </p>
         </div>
       ) : (

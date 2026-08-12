@@ -27,6 +27,7 @@ import RestaurantDeliveryPricingSection from "../components/restaurant-details/R
 import RestaurantAvailabilitySection from "../components/restaurant-details/RestaurantAvailabilitySection";
 import RestaurantClosedSection from "../components/restaurant-details/RestaurantClosedSection";
 import RestaurantWalletSection from "../components/restaurant-details/RestaurantWalletSection";
+import RestaurantPublicProfileBanner from "../components/restaurant-details/RestaurantPublicProfileBanner";
 
 const MAX_RESTAURANT_IMAGES = Number(KEYS.MAX_RESTAURANT_IMAGES) || 5;
 const MAX_RESTAURANT_IMAGE_SIZE_IN_MB =
@@ -246,6 +247,14 @@ const RestaurantDetails = () => {
                 : t("restaurantDetails.openStatus")}
             </span>
           </div>
+        </div>
+
+        <div className="mb-6">
+          <RestaurantPublicProfileBanner
+            slug={restaurant.slug}
+            totalViews={restaurant.totalViews}
+            ratingTotal={restaurant.rating.total}
+          />
         </div>
 
         {restaurant.isClosed && (

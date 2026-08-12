@@ -29,7 +29,8 @@
     "periodLastMonth": "Dernier mois",
     "periodLastYear": "Dernière année",
     "totalOrders": "Commandes totales",
-    "noMenuStatistics": "Aucune commande trouvée pour cette période",
+    "noMenuStatistics": "Aucune commande pour cette période",
+    "noMenuStatisticsDescription": "Les statistiques apparaîtront ici lorsqu'il y aura des commandes.",
     "ordersByMenu": "Commandes par menu",
     "orderDistribution": "Répartition des commandes"
   },
@@ -45,6 +46,9 @@
   },
 
   "payments": {
+    "title": "Paiements",
+    "subtitle": "Suivez vos revenus et demandez des virements",
+    "walletTypeMobile": "Portefeuille mobile",
     "noWalletTitle": "Aucun moyen de paiement configuré",
     "noWalletDescription": "Ajoutez un portefeuille mobile à votre restaurant pour commencer à recevoir des paiements.",
     "setUpWallet": "Configurer le moyen de paiement"
@@ -108,6 +112,10 @@
     "imageDeleteError": "Impossible de supprimer l'image",
     "maxImagesReached": "Nombre maximum de photos atteint",
     "imageTooLarge": "L'image doit être inférieure à {{value}} Mo",
+    "publicProfileTitle": "Profil public",
+    "views": "Visites",
+    "ratings": "Avis",
+    "viewPublicProfile": "Voir le profil public",
     "information": "Informations générales",
     "name": "Nom du restaurant",
     "slogan": "Slogan",

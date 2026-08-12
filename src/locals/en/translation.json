@@ -29,7 +29,8 @@
     "periodLastMonth": "Last month",
     "periodLastYear": "Last year",
     "totalOrders": "Total orders",
-    "noMenuStatistics": "No orders found for this period",
+    "noMenuStatistics": "No orders for this period",
+    "noMenuStatisticsDescription": "Statistics will appear here when orders are placed.",
     "ordersByMenu": "Orders by menu",
     "orderDistribution": "Order distribution"
   },
@@ -45,6 +46,9 @@
   },
 
   "payments": {
+    "title": "Payments",
+    "subtitle": "Track your earnings and request transfers",
+    "walletTypeMobile": "Mobile wallet",
     "noWalletTitle": "No payment method set up",
     "noWalletDescription": "Add a mobile wallet to your restaurant so you can start receiving payments.",
     "setUpWallet": "Set up payment method"
@@ -108,6 +112,10 @@
     "imageDeleteError": "Unable to remove image",
     "maxImagesReached": "Maximum number of pictures reached",
     "imageTooLarge": "Image must be smaller than {{value}} MB",
+    "publicProfileTitle": "Public profile",
+    "views": "Views",
+    "ratings": "Ratings",
+    "viewPublicProfile": "View public profile",
     "information": "General information",
     "name": "Restaurant name",
     "slogan": "Slogan",
