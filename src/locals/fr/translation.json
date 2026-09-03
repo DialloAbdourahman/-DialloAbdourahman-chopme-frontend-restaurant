@@ -84,7 +84,10 @@
     "orders": "Commandes",
     "payments": "Paiements",
     "settings": "Paramètres",
-    "logoutSuccess": "Vous avez été déconnecté."
+    "logoutSuccess": "Vous avez été déconnecté.",
+    "deletedBanner": "Votre restaurant a été supprimé par l'administrateur. Veuillez contacter l'administrateur pour plus d'informations.",
+    "closedBanner": "Votre restaurant est actuellement fermé. Les clients ne peuvent pas passer de commandes.",
+    "openRestaurant": "Ouvrir le restaurant"
   },
 
   "restaurantDetails": {

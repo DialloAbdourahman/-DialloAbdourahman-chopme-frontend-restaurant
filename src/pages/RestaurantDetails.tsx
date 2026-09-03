@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Store } from "lucide-react";
 import {
   EnumRestaurantMemberRole,
-  EnumStatusCode,
-  EnumStatusResponse,
   type IRestaurantEntity,
 } from "chopme-frontend-common";
 import type { RootState } from "../store";
@@ -28,6 +26,7 @@ import RestaurantAvailabilitySection from "../components/restaurant-details/Rest
 import RestaurantClosedSection from "../components/restaurant-details/RestaurantClosedSection";
 import RestaurantWalletSection from "../components/restaurant-details/RestaurantWalletSection";
 import RestaurantPublicProfileBanner from "../components/restaurant-details/RestaurantPublicProfileBanner";
+import { setRestaurantMember } from "../store/user.slice";
 
 const MAX_RESTAURANT_IMAGES = Number(KEYS.MAX_RESTAURANT_IMAGES) || 5;
 const MAX_RESTAURANT_IMAGE_SIZE_IN_MB =
@@ -36,12 +35,13 @@ const MAX_IMAGE_SIZE_BYTES = MAX_RESTAURANT_IMAGE_SIZE_IN_MB * 1024 * 1024;
 
 const RestaurantDetails = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const { restaurantMember } = useSelector((state: RootState) => state.user);
 
   const isOwner = restaurantMember?.role === EnumRestaurantMemberRole.OWNER;
 
-  const [restaurant, setRestaurant] = useState<IRestaurantEntity | null>(null);
-  const [loading, setLoading] = useState(true);
+  const restaurant = restaurantMember.restaurant;
   const [togglingClosed, setTogglingClosed] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -52,6 +52,12 @@ const RestaurantDetails = () => {
   const [imageDeleteModalOpen, setImageDeleteModalOpen] = useState(false);
   const [imageKeyToDelete, setImageKeyToDelete] = useState<string | null>(null);
   const [closedModalOpen, setClosedModalOpen] = useState(false);
+
+  const setRestaurant = (newRestaurant: IRestaurantEntity) => {
+    dispatch(
+      setRestaurantMember({ ...restaurantMember, restaurant: newRestaurant }),
+    );
+  };
 
   const handleUpdate = (updated: IRestaurantEntity) => {
     setRestaurant(updated);
@@ -164,44 +170,6 @@ const RestaurantDetails = () => {
       setTogglingClosed(false);
     }
   };
-
-  useEffect(() => {
-    const id = restaurantMember?.restaurant?.id;
-    if (!id) return;
-
-    const fetchRestaurant = async () => {
-      setLoading(true);
-      try {
-        const { data } = await RestaurantService.findOnePrivate(id);
-        if (
-          data.code === EnumStatusResponse.SUCCESS &&
-          data.statusCode === EnumStatusCode.RECOVERED_SUCCESSFULLY &&
-          data.data
-        ) {
-          setRestaurant(data.data);
-        }
-      } catch {
-        showErrorToast(t("restaurantDetails.fetchError"));
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRestaurant();
-  }, [restaurantMember?.restaurant?.id]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Navbar />
-        <div className="max-w-3xl mx-auto px-4 py-6 space-y-4">
-          <div className="h-6 w-1/3 bg-card rounded-xl animate-pulse" />
-          <div className="h-56 sm:h-72 bg-card animate-pulse rounded-2xl" />
-          <div className="h-40 bg-card rounded-2xl animate-pulse" />
-        </div>
-      </div>
-    );
-  }
 
   if (!restaurant) {
     return (

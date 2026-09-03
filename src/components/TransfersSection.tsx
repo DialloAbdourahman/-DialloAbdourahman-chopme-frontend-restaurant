@@ -146,21 +146,13 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
         setTransfers((prev) => [data.data!, ...prev]);
         onTransferCreated?.();
         fetchCollectibleAmount();
-      } else {
-        switch (data.statusCode) {
-          case EnumStatusCode.NO_WALLET:
-            showErrorToast(t("transfers.noWallet"));
-            break;
-          case EnumStatusCode.UNABLE_TO_CREATE_TRANSFER:
-            showErrorToast(t("transfers.noEligibleOrders"));
-            break;
-          default:
-            showErrorToast(t("transfers.createError"));
-        }
       }
     } catch (error) {
       const err = error as AxiosError<IOrchestrationResult<unknown>>;
       switch (err?.response?.data?.statusCode) {
+        case EnumStatusCode.RESTAURANT_NOT_FOUND:
+          showErrorToast(t("restaurantDetails.notFound"));
+          break;
         case EnumStatusCode.NO_WALLET:
           showErrorToast(t("transfers.noWallet"));
           break;

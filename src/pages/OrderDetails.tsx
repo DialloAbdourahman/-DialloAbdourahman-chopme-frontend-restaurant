@@ -200,6 +200,9 @@ const OrderDetails = () => {
         case EnumStatusCode.ORDER_NOT_FOUND:
           showWarningToast(t("order.orderNotFound"));
           break;
+        case EnumStatusCode.RESTAURANT_NOT_FOUND:
+          showWarningToast(t("restaurantDetails.notFound"));
+          break;
         default:
           showErrorToast(t("order.couldNotUpdateStatus"));
       }

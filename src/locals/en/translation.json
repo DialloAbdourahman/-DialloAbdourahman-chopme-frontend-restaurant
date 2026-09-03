@@ -84,7 +84,10 @@
     "orders": "Orders",
     "payments": "Payments",
     "settings": "Settings",
-    "logoutSuccess": "You have been logged out."
+    "logoutSuccess": "You have been logged out.",
+    "deletedBanner": "Your restaurant has been deleted by the admin. Please contact the admin for more information.",
+    "closedBanner": "Your restaurant is currently closed. Customers cannot place orders.",
+    "openRestaurant": "Open Restaurant"
   },
 
   "restaurantDetails": {

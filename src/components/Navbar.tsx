@@ -2,7 +2,16 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ChefHat, ChevronDown, LogOut, Menu, X } from "lucide-react";
+import {
+  ChefHat,
+  ChevronDown,
+  LogOut,
+  Menu,
+  X,
+  AlertTriangle,
+  Clock,
+  Store,
+} from "lucide-react";
 import {
   EnumRestaurantMemberRole,
   EnumStatusCode,
@@ -110,8 +119,36 @@ const Navbar = () => {
     };
   }, []);
 
+  const isDeleted = !!restaurantMember?.restaurant?.deleted;
+  const isClosed = restaurantMember?.restaurant?.isClosed === true;
+
   return (
     <>
+      {isDeleted && (
+        <div className="bg-red-600 text-white px-4 py-2.5">
+          <div className="max-w-5xl mx-auto flex items-center justify-center gap-2 text-center">
+            <AlertTriangle size={18} className="flex-shrink-0" />
+            <p className="text-sm font-medium">{t("navbar.deletedBanner")}</p>
+          </div>
+        </div>
+      )}
+      {isClosed && (
+        <div className="bg-amber-500 text-white px-4 py-2.5">
+          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
+            <div className="flex items-center gap-2">
+              <Clock size={18} className="flex-shrink-0" />
+              <p className="text-sm font-medium">{t("navbar.closedBanner")}</p>
+            </div>
+            <Link
+              to="/restaurant"
+              className="inline-flex items-center gap-1.5 bg-white text-amber-600 rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-white/90 transition-colors"
+            >
+              <Store size={14} />
+              {t("navbar.openRestaurant")}
+            </Link>
+          </div>
+        </div>
+      )}
       <nav className="bg-card shadow-sm sticky top-0 z-50 border-b border-border">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
