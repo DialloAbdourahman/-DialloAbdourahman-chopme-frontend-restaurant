@@ -165,6 +165,7 @@ const OrdersList = () => {
           </div>
         ) : orders.length === 0 ? (
           <div className="bg-card rounded-2xl p-8 text-center shadow-sm">
+            <ShoppingBag size={40} className="mx-auto mb-3 text-gray-300" />
             <p className="text-sm text-gray-500">{t("order.noOrdersFound")}</p>
           </div>
         ) : (

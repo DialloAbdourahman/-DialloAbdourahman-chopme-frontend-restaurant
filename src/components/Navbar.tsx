@@ -58,11 +58,12 @@ const Navbar = () => {
   }, [t, canManage]);
 
   const settingsLinks = useMemo(() => {
-    if (!canManage) return [];
-    const links = [
+    const links = [{ label: t("navbar.profile"), href: "/profile" }];
+    if (!canManage) return links;
+    links.push(
       { label: t("navbar.restaurant"), href: "/restaurant" },
       { label: t("navbar.members"), href: "/members" },
-    ];
+    );
     if (isOwner) {
       links.push({ label: t("navbar.payments"), href: "/payments" });
     }

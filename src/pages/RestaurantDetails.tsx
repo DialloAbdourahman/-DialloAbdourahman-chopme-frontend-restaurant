@@ -41,7 +41,7 @@ const RestaurantDetails = () => {
 
   const isOwner = restaurantMember?.role === EnumRestaurantMemberRole.OWNER;
 
-  const restaurant = restaurantMember.restaurant;
+  const restaurant = restaurantMember?.restaurant;
   const [togglingClosed, setTogglingClosed] = useState(false);
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
@@ -54,6 +54,7 @@ const RestaurantDetails = () => {
   const [closedModalOpen, setClosedModalOpen] = useState(false);
 
   const setRestaurant = (newRestaurant: IRestaurantEntity) => {
+    if (!restaurantMember) return;
     dispatch(
       setRestaurantMember({ ...restaurantMember, restaurant: newRestaurant }),
     );
@@ -224,12 +225,6 @@ const RestaurantDetails = () => {
             ratingTotal={restaurant.rating.total}
           />
         </div>
-
-        {restaurant.isClosed && (
-          <div className="bg-red-50 border border-red-200 rounded-xl p-3 mb-6 text-sm text-red-800">
-            {t("restaurantDetails.closedNotice")}
-          </div>
-        )}
 
         <RestaurantCoverSection
           coverImage={restaurant.coverImage}

@@ -19,6 +19,7 @@ import RestaurantDetails from "./pages/RestaurantDetails";
 import OrdersList from "./pages/OrdersList";
 import OrderDetails from "./pages/OrderDetails";
 import Payments from "./pages/Payments";
+import Profile from "./pages/Profile";
 import type { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "./store";
@@ -66,19 +67,6 @@ const AppContent = () => {
           element={
             <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/owner"
-          element={
-            <ProtectedRoute>
-              <ProtectedRestaurantMemberRoute
-                allowedRoles={[EnumRestaurantMemberRole.OWNER]}
-              >
-                <div>Owner</div>
-              </ProtectedRestaurantMemberRoute>
             </ProtectedRoute>
           }
         />
@@ -185,6 +173,15 @@ const AppContent = () => {
               >
                 <Payments />
               </ProtectedRestaurantMemberRoute>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />

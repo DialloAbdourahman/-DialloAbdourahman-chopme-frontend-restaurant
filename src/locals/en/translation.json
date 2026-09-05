@@ -87,7 +87,33 @@
     "logoutSuccess": "You have been logged out.",
     "deletedBanner": "Your restaurant has been deleted by the admin. Please contact the admin for more information.",
     "closedBanner": "Your restaurant is currently closed. Customers cannot place orders.",
-    "openRestaurant": "Open Restaurant"
+    "openRestaurant": "Open Restaurant",
+    "profile": "Profile"
+  },
+
+  "profile": {
+    "title": "My profile",
+    "subtitle": "Manage your account information",
+    "personalInformation": "Personal information",
+    "fullName": "Full name",
+    "email": "Email",
+    "memberSince": "Member since",
+    "saving": "Saving...",
+    "saveFullName": "Save full name",
+    "updatePassword": "Update password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "toggleCurrentPassword": "Toggle current password visibility",
+    "toggleNewPassword": "Toggle new password visibility",
+    "updating": "Updating...",
+    "updatePasswordButton": "Update password",
+    "fullNameUpdated": "Full name updated successfully.",
+    "fullNameUpdateFailed": "Failed to update full name.",
+    "fullNameUpdateError": "Failed to update full name. Please try again.",
+    "passwordUpdated": "Password updated successfully.",
+    "passwordUpdateFailed": "Failed to update password.",
+    "passwordUpdateError": "Failed to update password. Please try again."
   },
 
   "restaurantDetails": {
