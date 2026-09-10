@@ -11,8 +11,47 @@ export const RESTAURANT_VISIBLE_ORDER_STATUSES = [
 ];
 
 export const getRestaurantTypes = (t: TFunction) => [
+  {
+    title: t("restaurantTypes.restaurant"),
+    type: EnumRestaurantType.RESTAURANT,
+  },
   { title: t("restaurantTypes.fastFood"), type: EnumRestaurantType.FAST_FOOD },
+  { title: t("restaurantTypes.snack"), type: EnumRestaurantType.SNACK },
   { title: t("restaurantTypes.cafe"), type: EnumRestaurantType.CAFE },
+  {
+    title: t("restaurantTypes.cameroonian"),
+    type: EnumRestaurantType.CAMEROONIAN,
+  },
+  { title: t("restaurantTypes.african"), type: EnumRestaurantType.AFRICAN },
+  { title: t("restaurantTypes.maquis"), type: EnumRestaurantType.MAQUIS },
+  { title: t("restaurantTypes.gargote"), type: EnumRestaurantType.GARGOTE },
+  { title: t("restaurantTypes.grill"), type: EnumRestaurantType.GRILL },
+  {
+    title: t("restaurantTypes.rotisserie"),
+    type: EnumRestaurantType.ROTISSERIE,
+  },
+  { title: t("restaurantTypes.pizzeria"), type: EnumRestaurantType.PIZZERIA },
+  { title: t("restaurantTypes.burger"), type: EnumRestaurantType.BURGER },
+  { title: t("restaurantTypes.shawarma"), type: EnumRestaurantType.SHAWARMA },
+  { title: t("restaurantTypes.chinese"), type: EnumRestaurantType.CHINESE },
+  { title: t("restaurantTypes.indian"), type: EnumRestaurantType.INDIAN },
+  { title: t("restaurantTypes.lebanese"), type: EnumRestaurantType.LEBANESE },
+  { title: t("restaurantTypes.french"), type: EnumRestaurantType.FRENCH },
+  { title: t("restaurantTypes.italian"), type: EnumRestaurantType.ITALIAN },
+  { title: t("restaurantTypes.bakery"), type: EnumRestaurantType.BAKERY },
+  { title: t("restaurantTypes.dessert"), type: EnumRestaurantType.DESSERT },
+  { title: t("restaurantTypes.juiceBar"), type: EnumRestaurantType.JUICE_BAR },
+  { title: t("restaurantTypes.bar"), type: EnumRestaurantType.BAR },
+  { title: t("restaurantTypes.lounge"), type: EnumRestaurantType.LOUNGE },
+  {
+    title: t("restaurantTypes.fineDining"),
+    type: EnumRestaurantType.FINE_DINING,
+  },
+  {
+    title: t("restaurantTypes.hotelRestaurant"),
+    type: EnumRestaurantType.HOTEL_RESTAURANT,
+  },
+  { title: t("restaurantTypes.homeCook"), type: EnumRestaurantType.HOME_COOK },
 ];
 
 export const getOrderStatusLabels = (t: TFunction) => [

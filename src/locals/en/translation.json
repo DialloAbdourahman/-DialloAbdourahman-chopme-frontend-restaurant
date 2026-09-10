@@ -276,8 +276,32 @@
   },
 
   "restaurantTypes": {
+    "restaurant": "Restaurant",
     "fastFood": "Fast Food",
-    "cafe": "Café"
+    "snack": "Snack",
+    "cafe": "Café",
+    "cameroonian": "Cameroonian",
+    "african": "African",
+    "maquis": "Maquis",
+    "gargote": "Gargote",
+    "grill": "Grill",
+    "rotisserie": "Rotisserie",
+    "pizzeria": "Pizzeria",
+    "burger": "Burger",
+    "shawarma": "Shawarma",
+    "chinese": "Chinese",
+    "indian": "Indian",
+    "lebanese": "Lebanese",
+    "french": "French",
+    "italian": "Italian",
+    "bakery": "Bakery",
+    "dessert": "Dessert",
+    "juiceBar": "Juice Bar",
+    "bar": "Bar",
+    "lounge": "Lounge",
+    "fineDining": "Fine Dining",
+    "hotelRestaurant": "Hotel Restaurant",
+    "homeCook": "Home Cook"
   },
 
   "days": {
@@ -489,5 +513,9 @@
     "somethingWentWrong": "Something went wrong. Please try again.",
     "emailPlaceholder": "you@example.com",
     "passwordPlaceholder": "••••••••"
+  },
+
+  "footer": {
+    "allRightsReserved": "ChopMe. All rights reserved."
   }
 }

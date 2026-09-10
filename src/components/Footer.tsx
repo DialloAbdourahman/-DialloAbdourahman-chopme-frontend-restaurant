@@ -1,7 +1,9 @@
 import { ChefHat, Mail, Phone } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { KEYS } from "../utils/keys";
 
 const Footer = () => {
+  const { t } = useTranslation();
   const year = new Date().getFullYear();
 
   return (
@@ -13,7 +15,7 @@ const Footer = () => {
               <ChefHat size={22} className="text-white" />
             </div>
             <p className="text-sm text-gray-400">
-              © {year} ChopMe. All rights reserved.
+              © {year} {t("footer.allRightsReserved")}
             </p>
           </div>
 
