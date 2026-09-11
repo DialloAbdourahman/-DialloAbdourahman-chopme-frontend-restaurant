@@ -1,0 +1,58 @@
+name: Deploy React App to S3
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref_name == 'main' && 'chopme-restaurant-prod-website' || 'chopme-restaurant-dev-website' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+        env:
+          CI: false
+          VITE_BASE_URL: ${{ vars.VITE_BASE_URL }}
+          VITE_WEB_SOCKET_URL: ${{ vars.VITE_WEB_SOCKET_URL }}
+          VITE_ACCESS_TOKEN_KEY: ${{ vars.VITE_ACCESS_TOKEN_KEY }}
+          VITE_REFRESH_TOKEN_KEY: ${{ vars.VITE_REFRESH_TOKEN_KEY }}
+          VITE_GOOGLE_AUTH_CLIENT_ID: ${{ vars.VITE_GOOGLE_AUTH_CLIENT_ID }}
+          VITE_GOOGLE_PLACE_API_KEY: ${{ vars.VITE_GOOGLE_PLACE_API_KEY }}
+          VITE_LOCATION_IN_LOCAL_STORAGE_KEY: ${{ vars.VITE_LOCATION_IN_LOCAL_STORAGE_KEY }}
+          VITE_PUBLIC_S3_PREFIX: ${{ vars.VITE_PUBLIC_S3_PREFIX }}
+          VITE_CART_IN_LOCAL_STORAGE: ${{ vars.VITE_CART_IN_LOCAL_STORAGE }}
+          VITE_FAKE_AVERAGE_RATING: ${{ vars.VITE_FAKE_AVERAGE_RATING }}
+          VITE_FAKE_TOTAL_NUMBER_OF_RATINGS: ${{ vars.VITE_FAKE_TOTAL_NUMBER_OF_RATINGS }}
+          VITE_MIN_RATINGS_BEFORE_SHOWING_REAL_RATINGS: ${{ vars.VITE_MIN_RATINGS_BEFORE_SHOWING_REAL_RATINGS }}
+          VITE_MAX_LOCATION_PROMPTS_IN_LOCAL_STORAGE: ${{ vars.VITE_MAX_LOCATION_PROMPTS_IN_LOCAL_STORAGE }}
+          VITE_MAX_LOCATION_PROMPTS: ${{ vars.VITE_MAX_LOCATION_PROMPTS }}
+          VITE_FIREBASE_VAPID_KEY: ${{ vars.VITE_FIREBASE_VAPID_KEY }}
+          VITE_CONTACT_PHONE_NUMBER: ${{ vars.VITE_CONTACT_PHONE_NUMBER }}
+          VITE_CONTACT_EMAIL: ${{ vars.VITE_CONTACT_EMAIL }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to S3
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
