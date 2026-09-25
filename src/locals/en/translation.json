@@ -180,6 +180,7 @@
     "closeDescription": "Are you sure you want to close {{name}}?",
     "toggleClosedSuccess": "Restaurant opening state updated",
     "toggleClosedError": "Unable to update opening state",
+    "cannotOpenClosedByAdmin": "This restaurant was closed by an administrator and cannot be reopened from here. Please contact support.",
     "walletTitle": "Wallet",
     "walletTypeMobile": "Mobile Wallet",
     "walletNetworkMTN": "MTN Mobile Money",
