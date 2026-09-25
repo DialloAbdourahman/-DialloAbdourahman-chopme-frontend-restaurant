@@ -28,9 +28,9 @@ self.addEventListener("activate", (event) => {
 messaging.onBackgroundMessage((payload) => {
   console.log("Background message received: ", payload);
 
-  const notificationTitle = payload.notification?.title || "New Update!";
+  const notificationTitle = payload.data?.title || "New Update!";
   const notificationOptions = {
-    body: payload.notification?.body || "Check your app for details.",
+    body: payload.data?.body || "Check your app for details.",
     // icon: "/logo.png", // Must be a path in your public folder
     // badge: "/badge.png", // Small icon shown in Android status bars
     data: {
