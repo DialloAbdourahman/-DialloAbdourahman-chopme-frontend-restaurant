@@ -214,46 +214,48 @@ const MenuOrderStatistics = () => {
               }}
             />
           </div>
-          <div className="w-full flex flex-col items-center rounded-2xl bg-white p-5 shadow-sm">
-            <p className="text-sm font-semibold text-text/70 mb-2 self-start">
-              {t("home.orderDistribution")}
-            </p>
-            <PieChart
-              series={[
-                {
-                  data: stats.map((stat) => ({
-                    id: stat.menuId,
-                    value: stat.totalOrders,
-                    label: stat.menuName,
-                  })),
-                  innerRadius: 50,
-                  paddingAngle: 3,
-                  cornerRadius: 6,
-                  arcLabel: (item) => `${item.value}`,
-                  arcLabelMinAngle: 15,
-                },
-              ]}
-              colors={CHART_COLORS}
-              height={300}
-              slotProps={{
-                legend: {
-                  direction: "horizontal",
-                  position: { vertical: "bottom", horizontal: "center" },
-                },
-              }}
-              sx={{
-                "& .MuiPieArcLabel-root": {
-                  fill: "white",
-                  fontWeight: "bold",
-                  fontSize: 12,
-                },
-                "& .MuiPieArc-root": {
-                  stroke: "white",
-                  strokeWidth: 2,
-                },
-              }}
-            />
-          </div>
+          {stats.length > 1 && (
+            <div className="w-full flex flex-col items-center rounded-2xl bg-white p-5 shadow-sm">
+              <p className="text-sm font-semibold text-text/70 mb-2 self-start">
+                {t("home.orderDistribution")}
+              </p>
+              <PieChart
+                series={[
+                  {
+                    data: stats.map((stat) => ({
+                      id: stat.menuId,
+                      value: stat.totalOrders,
+                      label: stat.menuName,
+                    })),
+                    innerRadius: 50,
+                    paddingAngle: 3,
+                    cornerRadius: 6,
+                    arcLabel: (item) => `${item.value}`,
+                    arcLabelMinAngle: 15,
+                  },
+                ]}
+                colors={CHART_COLORS}
+                height={300}
+                slotProps={{
+                  legend: {
+                    direction: "horizontal",
+                    position: { vertical: "bottom", horizontal: "center" },
+                  },
+                }}
+                sx={{
+                  "& .MuiPieArcLabel-root": {
+                    fill: "white",
+                    fontWeight: "bold",
+                    fontSize: 12,
+                  },
+                  "& .MuiPieArc-root": {
+                    stroke: "white",
+                    strokeWidth: 2,
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

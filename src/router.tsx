@@ -26,6 +26,7 @@ import type { RootState } from "./store";
 import { EnumRestaurantMemberRole } from "chopme-frontend-common";
 import WebSocket from "./components/WebSocket";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { user, restaurantMember } = useSelector(
@@ -196,6 +197,7 @@ const AppContent = () => {
 const Router = () => {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <AppContent />
     </BrowserRouter>
   );
