@@ -3,8 +3,11 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Store } from "lucide-react";
+import { AxiosError } from "axios";
 import {
   EnumRestaurantMemberRole,
+  EnumStatusCode,
+  type IOrchestrationResult,
   type IRestaurantEntity,
 } from "chopme-frontend-common";
 import type { RootState } from "../store";
@@ -165,8 +168,15 @@ const RestaurantDetails = () => {
         showSuccessToast(t("restaurantDetails.toggleClosedSuccess"));
         setClosedModalOpen(false);
       }
-    } catch {
-      showErrorToast(t("restaurantDetails.toggleClosedError"));
+    } catch (error) {
+      const err = error as AxiosError<IOrchestrationResult<string>>;
+      switch (err?.response?.data?.statusCode) {
+        case EnumStatusCode.CANNOT_OPEN_RESTAURANT:
+          showErrorToast(t("restaurantDetails.cannotOpenClosedByAdmin"));
+          break;
+        default:
+          showErrorToast(t("restaurantDetails.toggleClosedError"));
+      }
     } finally {
       setTogglingClosed(false);
     }
