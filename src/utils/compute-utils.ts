@@ -122,6 +122,8 @@ export class ComputeUtils {
         return t("members.roleOwner");
       case EnumRestaurantMemberRole.MANAGER:
         return t("members.roleManager");
+      case EnumRestaurantMemberRole.DELIVERY_AGENT:
+        return t("members.roleDeliveryAgent");
       default:
         return role;
     }

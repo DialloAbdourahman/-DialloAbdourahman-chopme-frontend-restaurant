@@ -335,6 +335,7 @@
     "allRoles": "Tous les rôles",
     "roleOwner": "Propriétaire",
     "roleManager": "Gestionnaire",
+    "roleDeliveryAgent": "Livreur",
     "active": "Actif",
     "deleted": "Supprimé",
     "unknown": "Inconnu",

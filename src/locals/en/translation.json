@@ -335,6 +335,7 @@
     "allRoles": "All roles",
     "roleOwner": "Owner",
     "roleManager": "Manager",
+    "roleDeliveryAgent": "Delivery agent",
     "active": "Active",
     "deleted": "Deleted",
     "unknown": "Unknown",
