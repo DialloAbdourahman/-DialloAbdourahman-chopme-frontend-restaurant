@@ -134,14 +134,14 @@ const AppContent = () => {
           path="/orders"
           element={
             <ProtectedRoute>
-              <ProtectedRestaurantMemberRoute
+              {/* <ProtectedRestaurantMemberRoute
                 allowedRoles={[
                   EnumRestaurantMemberRole.OWNER,
                   EnumRestaurantMemberRole.MANAGER,
                 ]}
-              >
-                <Outlet />
-              </ProtectedRestaurantMemberRoute>
+              > */}
+              <Outlet />
+              {/* </ProtectedRestaurantMemberRoute> */}
             </ProtectedRoute>
           }
         >

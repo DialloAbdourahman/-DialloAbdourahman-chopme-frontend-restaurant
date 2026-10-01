@@ -340,6 +340,7 @@ const CreateMenu = () => {
         open={createCategoryModalOpen}
         setOpen={setCreateCategoryModalOpen}
         title={t("categories.addCategory")}
+        clickOutside={false}
         textButton={
           creatingCategory ? t("common.loading") : t("categories.create")
         }

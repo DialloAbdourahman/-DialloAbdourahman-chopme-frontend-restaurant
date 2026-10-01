@@ -177,23 +177,6 @@ const RestaurantMembers = () => {
         showSuccessToast(t("members.deleteSuccess"));
         setDeleteModalOpen(false);
         setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
-      } else {
-        switch (data.statusCode) {
-          case EnumStatusCode.CANNOT_DELETE_OWNER:
-            showWarningToast(t("members.cannotDeleteOwner"));
-            break;
-          case EnumStatusCode.CANNOT_DELETE_SELF:
-            showWarningToast(t("members.cannotDeleteSelf"));
-            break;
-          case EnumStatusCode.NOT_ALLOWED:
-            showWarningToast(t("members.deleteNotAllowed"));
-            break;
-          case EnumStatusCode.NOT_FOUND:
-            showWarningToast(t("members.deleteNotFound"));
-            break;
-          default:
-            showErrorToast(t("members.deleteError"));
-        }
       }
     } catch (error) {
       const err = error as AxiosError<IOrchestrationResult<string>>;
@@ -265,11 +248,7 @@ const RestaurantMembers = () => {
 
   const openRoleModal = (member: IRestaurantMemberEntity) => {
     setSelectedMember(member);
-    setNewRole(
-      member.role === EnumRestaurantMemberRole.OWNER
-        ? EnumRestaurantMemberRole.MANAGER
-        : EnumRestaurantMemberRole.MANAGER,
-    );
+    setNewRole(member.role);
     setRoleModalOpen(true);
   };
 
@@ -369,6 +348,9 @@ const RestaurantMembers = () => {
                   </option>
                   <option value={EnumRestaurantMemberRole.OWNER}>
                     {t("members.roleOwner")}
+                  </option>
+                  <option value={EnumRestaurantMemberRole.DELIVERY_AGENT}>
+                    {t("members.roleDeliveryAgent")}
                   </option>
                 </select>
                 <ChevronDown
@@ -533,6 +515,9 @@ const RestaurantMembers = () => {
           >
             <option value={EnumRestaurantMemberRole.MANAGER}>
               {t("members.roleManager")}
+            </option>
+            <option value={EnumRestaurantMemberRole.DELIVERY_AGENT}>
+              {t("members.roleDeliveryAgent")}
             </option>
           </select>
         </div>

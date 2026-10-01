@@ -169,6 +169,9 @@ const CreateRestaurantMember = () => {
                 <option value={EnumRestaurantMemberRole.MANAGER}>
                   {t("members.roleManager")}
                 </option>
+                <option value={EnumRestaurantMemberRole.DELIVERY_AGENT}>
+                  {t("members.roleDeliveryAgent")}
+                </option>
               </select>
               {errors.role && (
                 <p className="text-xs text-red-500">{errors.role.message}</p>

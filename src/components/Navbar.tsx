@@ -48,9 +48,12 @@ const Navbar = () => {
   }, [restaurantMember]);
 
   const mainNavLinks = useMemo(() => {
-    const links = [{ label: t("navbar.home"), href: "/" }];
+    const links = [
+      { label: t("navbar.home"), href: "/" },
+      { label: t("navbar.orders"), href: "/orders" },
+    ];
     if (canManage) {
-      links.push({ label: t("navbar.orders"), href: "/orders" });
+      // links.push({ label: t("navbar.orders"), href: "/orders" });
       links.push({ label: t("navbar.menus"), href: "/menus" });
       links.push({ label: t("navbar.categories"), href: "/categories" });
     }
