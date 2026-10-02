@@ -10,6 +10,7 @@ import {
   emailPasswordLoginSchema,
   EnumStatusCode,
   EnumStatusResponse,
+  EnumUserRole,
 } from "chopme-frontend-common";
 import { AuthService } from "../services/auth.service";
 import { TokensService } from "../services/tokens.service";
@@ -39,7 +40,11 @@ const Signin = () => {
     formState: { errors, isSubmitting },
   } = useForm<EmailPasswordLoginDto>({
     resolver: zodResolver(emailPasswordLoginSchema),
-    defaultValues: { email: "", password: "" },
+    defaultValues: {
+      email: "",
+      password: "",
+      role: EnumUserRole.RESTAURANT_MEMBER,
+    },
   });
 
   const onSubmit = async (values: EmailPasswordLoginDto) => {
