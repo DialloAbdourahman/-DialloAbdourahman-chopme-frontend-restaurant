@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ChefHat,
   ChevronDown,
+  Loader2,
   LogOut,
   Menu,
   X,
@@ -31,6 +32,7 @@ const Navbar = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const { user, restaurantMember } = useSelector(
     (state: RootState) => state.user,
@@ -80,6 +82,7 @@ const Navbar = () => {
   }, [settingsLinks, location.pathname]);
 
   const handleLogout = async () => {
+    setIsLoggingOut(true);
     try {
       const refreshToken = TokensService.getToken(KEYS.REFRESH_TOKEN_KEY);
       const response = await AuthService.logout(refreshToken ?? undefined);
@@ -100,6 +103,8 @@ const Navbar = () => {
     } catch (error) {
       console.error("Failed to log out:", error);
       showErrorToast(t("common.somethingWentWrong"));
+    } finally {
+      setIsLoggingOut(false);
     }
   };
 
@@ -227,9 +232,14 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={handleLogout}
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-red-600"
+                disabled={isLoggingOut}
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-gray-500 transition-colors hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <LogOut size={16} />
+                {isLoggingOut ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <LogOut size={16} />
+                )}
                 <span className="hidden lg:inline">{t("common.logout")}</span>
               </button>
             ) : (
@@ -277,9 +287,14 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-100"
+                  disabled={isLoggingOut}
+                  className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-semibold text-red-600 transition-colors hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <LogOut size={17} />
+                  {isLoggingOut ? (
+                    <Loader2 size={17} className="animate-spin" />
+                  ) : (
+                    <LogOut size={17} />
+                  )}
                   {t("common.logout")}
                 </button>
               ) : (
