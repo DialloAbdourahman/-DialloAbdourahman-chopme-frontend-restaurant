@@ -13,18 +13,22 @@ import {
   Clock,
   Store,
 } from "lucide-react";
+import { AxiosError } from "axios";
 import {
   EnumRestaurantMemberRole,
   EnumStatusCode,
   EnumStatusResponse,
 } from "chopme-frontend-common";
+import type { IOrchestrationResult } from "chopme-frontend-common";
 import type { RootState } from "../store";
 import { setUser, setRestaurantMember } from "../store/user.slice";
 import { AuthService } from "../services/auth.service";
 import { TokensService } from "../services/tokens.service";
 import { KEYS } from "../utils/keys";
 import { showErrorToast, showSuccessToast } from "../utils/toasts";
+import { RestaurantService } from "../services/restaurant.service";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ConfirmModal from "./ConfirmModal";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -33,6 +37,8 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [openModalOpen, setOpenModalOpen] = useState(false);
+  const [togglingOpen, setTogglingOpen] = useState(false);
   const settingsRef = useRef<HTMLDivElement>(null);
   const { user, restaurantMember } = useSelector(
     (state: RootState) => state.user,
@@ -108,6 +114,33 @@ const Navbar = () => {
     }
   };
 
+  const handleOpenRestaurant = async () => {
+    const member = restaurantMember;
+    const restaurant = member?.restaurant;
+    if (!member || !restaurant) return;
+
+    setTogglingOpen(true);
+    try {
+      const { data } = await RestaurantService.toggleClosed(restaurant.id);
+      if (data.data) {
+        dispatch(setRestaurantMember({ ...member, restaurant: data.data }));
+        showSuccessToast(t("restaurantDetails.toggleClosedSuccess"));
+        setOpenModalOpen(false);
+      }
+    } catch (error) {
+      const err = error as AxiosError<IOrchestrationResult<string>>;
+      switch (err?.response?.data?.statusCode) {
+        case EnumStatusCode.CANNOT_OPEN_RESTAURANT:
+          showErrorToast(t("restaurantDetails.cannotOpenClosedByAdmin"));
+          break;
+        default:
+          showErrorToast(t("restaurantDetails.toggleClosedError"));
+      }
+    } finally {
+      setTogglingOpen(false);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -148,13 +181,14 @@ const Navbar = () => {
               <Clock size={18} className="flex-shrink-0" />
               <p className="text-sm font-medium">{t("navbar.closedBanner")}</p>
             </div>
-            <Link
-              to="/restaurant"
+            <button
+              type="button"
+              onClick={() => setOpenModalOpen(true)}
               className="inline-flex items-center gap-1.5 bg-white text-amber-600 rounded-lg px-3 py-1.5 text-xs font-semibold hover:bg-white/90 transition-colors"
             >
               <Store size={14} />
               {t("navbar.openRestaurant")}
-            </Link>
+            </button>
           </div>
         </div>
       )}
@@ -310,6 +344,19 @@ const Navbar = () => {
           </div>
         )}
       </nav>
+
+      <ConfirmModal
+        open={openModalOpen}
+        setOpen={setOpenModalOpen}
+        title={t("restaurantDetails.openTitle")}
+        description={t("restaurantDetails.openDescription", {
+          name: restaurantMember?.restaurant?.name,
+        })}
+        confirmText={t("restaurantDetails.open")}
+        variant="success"
+        loading={togglingOpen}
+        onConfirm={handleOpenRestaurant}
+      />
     </>
   );
 };
