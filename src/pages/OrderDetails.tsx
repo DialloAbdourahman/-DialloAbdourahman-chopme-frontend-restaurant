@@ -390,7 +390,12 @@ const OrderDetails = () => {
             {client.phoneNumber && (
               <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
                 <Phone size={12} />
-                {client.phoneNumber}
+                <a
+                  href={`tel:${client.phoneNumber}`}
+                  className="hover:text-primary"
+                >
+                  {client.phoneNumber}
+                </a>
               </p>
             )}
             {client.address && (
