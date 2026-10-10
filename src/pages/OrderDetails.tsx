@@ -383,9 +383,14 @@ const OrderDetails = () => {
 
         {client && (
           <div className="bg-card rounded-2xl p-4 shadow-sm mb-4">
-            <p className="text-xs text-gray-500 uppercase tracking-wide font-medium mb-1">
-              {t("order.customer")}
-            </p>
+            <div className="flex items-start justify-between gap-2 mb-1">
+              <p className="text-xs text-gray-500 uppercase tracking-wide font-medium">
+                {t("order.customer")}
+              </p>
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
+                {ComputeUtils.formatDateOnly(order.createdAt)}
+              </span>
+            </div>
             <p className="text-sm font-semibold text-text">{client.name}</p>
             {client.phoneNumber && (
               <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
