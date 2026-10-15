@@ -284,7 +284,7 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
                       </span>
                     </div>
                     <p className="mt-4 text-2xl font-bold text-text tracking-tight">
-                      {transfer.totalRestaurantAmount.toLocaleString()}{" "}
+                      {transfer?.amount?.toLocaleString()}{" "}
                       <span className="text-sm font-semibold text-gray-400">
                         FCFA
                       </span>
