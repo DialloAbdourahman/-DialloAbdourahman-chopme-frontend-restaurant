@@ -57,9 +57,10 @@ const STATUS_CONFIG: Record<
 
 type Props = {
   onTransferCreated?: () => void;
+  hasWallet?: boolean;
 };
 
-const TransfersSection = ({ onTransferCreated }: Props) => {
+const TransfersSection = ({ onTransferCreated, hasWallet = true }: Props) => {
   const { t } = useTranslation();
 
   const [transfers, setTransfers] = useState<ITransferEntity[]>([]);
@@ -200,8 +201,9 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
               setConfirmOpen(true);
               fetchCollectibleAmount();
             }}
-            disabled={amountLoading || collectibleAmount <= 0}
-            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!hasWallet || amountLoading || collectibleAmount <= 0}
+            title={!hasWallet ? t("transfers.noWallet") : undefined}
+            className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale"
           >
             <Send size={18} />
             {t("transfers.requestTransfer")}
