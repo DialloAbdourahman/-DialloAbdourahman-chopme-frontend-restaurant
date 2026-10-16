@@ -2,24 +2,21 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AxiosError } from "axios";
 import {
+  EnumNotificationType,
   EnumOrderStatus,
   EnumStatusCode,
   EnumStatusResponse,
   EnumTransferStatuses,
+  type INotification,
   type IOrchestrationResult,
   type ITransferEntity,
 } from "chopme-frontend-common";
 import {
   ArrowRightLeft,
-  Calendar,
-  CheckCircle2,
   ChevronDown,
-  Clock,
   Loader2,
-  Package,
   RefreshCcw,
   Send,
-  XCircle,
 } from "lucide-react";
 import { TransferService } from "../services/transfer.service";
 import { OrderService } from "../services/order.service";
@@ -27,47 +24,34 @@ import { ComputeUtils } from "../utils/compute-utils";
 import { showErrorToast, showSuccessToast } from "../utils/toasts";
 import Pagination from "./Pagination";
 import ConfirmModal from "./ConfirmModal";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store";
 
 const LIMIT = 10;
 
 const STATUS_CONFIG: Record<
   EnumTransferStatuses,
-  {
-    badgeClass: string;
-    accentClass: string;
-    iconClass: string;
-    icon: React.ReactNode;
-  }
+  { badgeClass: string; dotClass: string }
 > = {
   [EnumTransferStatuses.CREATED]: {
     badgeClass: "bg-gray-100 text-gray-700",
-    accentClass: "bg-gray-400",
-    iconClass: "bg-gray-100 text-gray-600",
-    icon: <Package size={20} />,
+    dotClass: "bg-gray-500",
   },
   [EnumTransferStatuses.INITIATED]: {
     badgeClass: "bg-blue-100 text-blue-700",
-    accentClass: "bg-blue-500",
-    iconClass: "bg-blue-100 text-blue-600",
-    icon: <Clock size={20} />,
+    dotClass: "bg-blue-500",
   },
   [EnumTransferStatuses.FAILED_TO_INITIATE]: {
     badgeClass: "bg-red-100 text-red-700",
-    accentClass: "bg-red-500",
-    iconClass: "bg-red-100 text-red-600",
-    icon: <XCircle size={20} />,
+    dotClass: "bg-red-500",
   },
   [EnumTransferStatuses.COMPLETED]: {
     badgeClass: "bg-green-100 text-green-700",
-    accentClass: "bg-green-500",
-    iconClass: "bg-green-100 text-green-600",
-    icon: <CheckCircle2 size={20} />,
+    dotClass: "bg-green-500",
   },
   [EnumTransferStatuses.FAILED]: {
     badgeClass: "bg-red-100 text-red-700",
-    accentClass: "bg-red-500",
-    iconClass: "bg-red-100 text-red-600",
-    icon: <XCircle size={20} />,
+    dotClass: "bg-red-500",
   },
 };
 
@@ -84,6 +68,10 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState<EnumTransferStatuses | "">(
     "",
+  );
+
+  const { newNotification } = useSelector(
+    (state: RootState) => state.notification,
   );
 
   const [collectibleAmount, setCollectibleAmount] = useState(0);
@@ -175,6 +163,32 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
     fetchCollectibleAmount();
   }, [fetchCollectibleAmount]);
 
+  useEffect(() => {
+    const notification = newNotification as INotification<ITransferEntity>;
+
+    if (!notification) return;
+
+    if (notification.type === EnumNotificationType.TRANSFER_STATUS_CHANGED) {
+      setTransfers((prev) => {
+        const existingIndex = prev.findIndex(
+          (item) => item.id === notification.data.id,
+        );
+        if (existingIndex >= 0) {
+          const updated = [...prev];
+          updated[existingIndex] = notification.data;
+          return updated;
+        }
+        return [notification.data, ...prev];
+      });
+      onTransferCreated?.();
+      fetchCollectibleAmount();
+    } else if (
+      notification.type === EnumNotificationType.ORDER_STATUS_CHANGED
+    ) {
+      fetchCollectibleAmount();
+    }
+  }, [newNotification]);
+
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -257,50 +271,61 @@ const TransfersSection = ({ onTransferCreated }: Props) => {
         ) : (
           <>
             <div
-              className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 transition-opacity ${
+              className={`overflow-x-auto rounded-2xl bg-white shadow-sm transition-opacity ${
                 loading ? "opacity-50 pointer-events-none" : ""
               }`}
             >
-              {transfers.map((transfer) => {
-                const statusConfig = STATUS_CONFIG[transfer.status];
-                return (
-                  <div
-                    key={transfer.id}
-                    className="relative overflow-hidden rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
-                  >
-                    <span
-                      className={`absolute inset-x-0 top-0 h-1 ${statusConfig.accentClass}`}
-                    />
-                    <div className="flex items-start justify-between gap-2">
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${statusConfig.iconClass}`}
+              <table className="w-full min-w-[560px] text-sm">
+                <thead>
+                  <tr className="bg-card/60 border-b border-border text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+                    <th className="px-5 py-3.5">{t("transfers.amount")}</th>
+                    <th className="px-5 py-3.5">{t("transfers.orders")}</th>
+                    <th className="px-5 py-3.5">{t("transfers.date")}</th>
+                    <th className="px-5 py-3.5">{t("transfers.status")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transfers.map((transfer) => {
+                    const statusConfig = STATUS_CONFIG[transfer.status];
+                    return (
+                      <tr
+                        key={transfer.id}
+                        className="border-b border-border last:border-0 hover:bg-card/40 transition-colors"
                       >
-                        {statusConfig.icon}
-                      </div>
-                      <span
-                        className={`shrink-0 inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ${statusConfig.badgeClass}`}
-                      >
-                        {ComputeUtils.formatTransferStatus(t, transfer.status)}
-                      </span>
-                    </div>
-                    <p className="mt-4 text-2xl font-bold text-text tracking-tight">
-                      {transfer?.amount?.toLocaleString()}{" "}
-                      <span className="text-sm font-semibold text-gray-400">
-                        FCFA
-                      </span>
-                    </p>
-                    <p className="mt-1 text-sm font-semibold text-text/80">
-                      {t("transfers.ordersCount", {
-                        count: transfer.totalOrders,
-                      })}
-                    </p>
-                    <div className="mt-2 flex items-center gap-1.5 text-xs text-gray-400">
-                      <Calendar size={14} />
-                      {ComputeUtils.formatDate(transfer.createdAt)}
-                    </div>
-                  </div>
-                );
-              })}
+                        <td className="px-5 py-4">
+                          <span className="text-lg font-extrabold text-text tabular-nums tracking-tight">
+                            {transfer?.amount?.toLocaleString()}
+                          </span>{" "}
+                          <span className="text-xs font-semibold uppercase text-primary">
+                            FCFA
+                          </span>
+                        </td>
+                        <td className="px-5 py-4 font-semibold text-text/80">
+                          {t("transfers.ordersCount", {
+                            count: transfer.totalOrders,
+                          })}
+                        </td>
+                        <td className="px-5 py-4 text-gray-500 whitespace-nowrap">
+                          {ComputeUtils.formatDate(transfer.createdAt)}
+                        </td>
+                        <td className="px-5 py-4">
+                          <span
+                            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold ${statusConfig.badgeClass}`}
+                          >
+                            <span
+                              className={`h-1.5 w-1.5 rounded-full ${statusConfig.dotClass}`}
+                            />
+                            {ComputeUtils.formatTransferStatus(
+                              t,
+                              transfer.status,
+                            )}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
             <div className="pt-4 mt-4 border-t border-border">
               <Pagination
