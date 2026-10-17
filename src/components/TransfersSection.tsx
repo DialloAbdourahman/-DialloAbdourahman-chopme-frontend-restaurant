@@ -170,17 +170,7 @@ const TransfersSection = ({ onTransferCreated, hasWallet = true }: Props) => {
     if (!notification) return;
 
     if (notification.type === EnumNotificationType.TRANSFER_STATUS_CHANGED) {
-      setTransfers((prev) => {
-        const existingIndex = prev.findIndex(
-          (item) => item.id === notification.data.id,
-        );
-        if (existingIndex >= 0) {
-          const updated = [...prev];
-          updated[existingIndex] = notification.data;
-          return updated;
-        }
-        return [notification.data, ...prev];
-      });
+      fetchTransfers(page, statusFilter);
       onTransferCreated?.();
       fetchCollectibleAmount();
     } else if (
