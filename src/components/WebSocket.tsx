@@ -5,10 +5,12 @@ import type { RootState } from "../store";
 import {
   EnumNotificationType,
   EnumOrderStatus,
+  EnumTransferStatuses,
   EnumWebSocketEventType,
   playNotificationSound,
   type INotification,
   type IOrderEntity,
+  type ITransferEntity,
 } from "chopme-frontend-common";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -36,6 +38,21 @@ const WebSocket = () => {
           showSuccessToast(t("notification.newOrder"), {
             onClick: () => {
               navigate(`/orders/${notification.data.id}`);
+            },
+          });
+          break;
+        default:
+          break;
+      }
+    }
+
+    if (newNotification.type === EnumNotificationType.TRANSFER_STATUS_CHANGED) {
+      const notification = newNotification as INotification<ITransferEntity>;
+      switch (notification.data.status) {
+        case EnumTransferStatuses.COMPLETED:
+          showSuccessToast(t("notification.transferCompleted"), {
+            onClick: () => {
+              navigate("/payments");
             },
           });
           break;
