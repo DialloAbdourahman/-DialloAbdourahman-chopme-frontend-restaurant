@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Loader2, Smartphone, Wallet } from "lucide-react";
+import { CheckCircle2, Loader2, Wallet } from "lucide-react";
 import { AxiosError } from "axios";
 import {
   EnumStatusCode,
@@ -98,6 +98,15 @@ const Payments = () => {
                 </div>
               </div>
             )}
+            {!loading && !wallet && (
+              <Link
+                to="/restaurant"
+                className="inline-flex shrink-0 animate-bounce items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 hover:opacity-90 active:scale-95 transition-all"
+              >
+                <Wallet size={18} />
+                {t("payments.setUpWallet")}
+              </Link>
+            )}
           </div>
         </div>
 
@@ -108,29 +117,9 @@ const Payments = () => {
             <div className="flex items-center justify-center py-16">
               <Loader2 className="animate-spin text-primary" size={24} />
             </div>
-          ) : !wallet ? (
-            <div className="flex flex-col items-center gap-4 rounded-2xl bg-card p-10 text-center shadow-sm">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <Smartphone size={28} />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-text">
-                  {t("payments.noWalletTitle")}
-                </h2>
-                <p className="mt-1 max-w-sm text-sm text-gray-500">
-                  {t("payments.noWalletDescription")}
-                </p>
-              </div>
-              <Link
-                to="/restaurant"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:opacity-90 active:scale-95 transition-all"
-              >
-                <Wallet size={18} />
-                {t("payments.setUpWallet")}
-              </Link>
-            </div>
           ) : (
             <TransfersSection
+              hasWallet={!!wallet}
               onTransferCreated={() =>
                 setMoneyRefreshSignal((prev) => prev + 1)
               }

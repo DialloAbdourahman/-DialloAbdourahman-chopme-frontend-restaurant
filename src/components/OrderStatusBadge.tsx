@@ -1,9 +1,32 @@
 import { EnumOrderStatus } from "chopme-frontend-common";
 import { useTranslation } from "react-i18next";
+import {
+  CheckCircle2,
+  ChefHat,
+  Clock,
+  CreditCard,
+  HandCoins,
+  PackageCheck,
+  Truck,
+  XCircle,
+} from "lucide-react";
 import { ComputeUtils } from "../utils/compute-utils";
 
 type Props = {
   status: EnumOrderStatus;
+};
+
+const STATUS_ICONS: Record<EnumOrderStatus, React.ReactNode> = {
+  [EnumOrderStatus.CREATED]: <Clock size={12} />,
+  [EnumOrderStatus.PAYMENT_INITIATED]: <CreditCard size={12} />,
+  [EnumOrderStatus.PAYMENT_FAILED]: <XCircle size={12} />,
+  [EnumOrderStatus.PAID]: <CheckCircle2 size={12} />,
+  [EnumOrderStatus.PREPARING_ORDER]: <ChefHat size={12} />,
+  [EnumOrderStatus.IN_DELIVERY]: <Truck size={12} />,
+  [EnumOrderStatus.DELIVERED]: <PackageCheck size={12} />,
+  [EnumOrderStatus.DISBURSED]: <HandCoins size={12} />,
+  [EnumOrderStatus.CANCELLED_BY_CUSTOMER]: <XCircle size={12} />,
+  [EnumOrderStatus.CANCELLED_BY_RESTAURANT]: <XCircle size={12} />,
 };
 
 const OrderStatusBadge = ({ status }: Props) => {
@@ -25,8 +48,9 @@ const OrderStatusBadge = ({ status }: Props) => {
 
   return (
     <span
-      className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${colorClass}`}
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${colorClass}`}
     >
+      {STATUS_ICONS[status]}
       {label}
     </span>
   );

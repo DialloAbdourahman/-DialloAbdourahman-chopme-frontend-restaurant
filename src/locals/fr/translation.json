@@ -72,7 +72,11 @@
     "statusInitiated": "En cours",
     "statusFailedToInitiate": "Échec du lancement",
     "statusCompleted": "Terminé",
-    "statusFailed": "Échoué"
+    "statusFailed": "Échoué",
+    "amount": "Montant",
+    "orders": "Commandes",
+    "date": "Date",
+    "status": "Statut"
   },
 
   "navbar": {
@@ -232,7 +236,8 @@
     "newOrder": "Nouvelle commande",
     "preparingOrder": "La commande est en préparation",
     "inDelivery": "La commande est en cours de livraison",
-    "delivered": "La commande a été livrée"
+    "delivered": "La commande a été livrée",
+    "transferCompleted": "Paiement reçu"
   },
 
   "order": {
