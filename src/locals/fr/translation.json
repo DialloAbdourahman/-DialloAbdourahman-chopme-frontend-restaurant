@@ -239,9 +239,9 @@
     "delivered": "La commande a été livrée",
     "transferCreated": "Demande de paiement créée",
     "transferInitiated": "Le paiement est en cours de traitement",
-    "transferFailedToInitiate": "Le paiement n'a pas pu être initié",
-    "transferCompleted": "Paiement reçu",
-    "transferFailed": "Le paiement a échoué"
+    "transferFailedToInitiate": "Le paiement n'a pas pu être initié. Un administrateur va vérifier.",
+    "transferCompleted": "Transfert réussi",
+    "transferFailed": "Transfert échoué. Un administrateur va vérifier."
   },
 
   "order": {
