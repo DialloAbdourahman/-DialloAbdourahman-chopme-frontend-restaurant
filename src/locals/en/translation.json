@@ -239,9 +239,9 @@
     "delivered": "Order has been delivered",
     "transferCreated": "Payout request created",
     "transferInitiated": "Payout is being processed",
-    "transferFailedToInitiate": "Payout could not be initiated",
-    "transferCompleted": "Payout received",
-    "transferFailed": "Payout failed"
+    "transferFailedToInitiate": "Payout could not be initiated. An admin will check it.",
+    "transferCompleted": "Transfer successful",
+    "transferFailed": "Transfer failed. An admin will check it."
   },
 
   "order": {
