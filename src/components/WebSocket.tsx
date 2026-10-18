@@ -17,7 +17,11 @@ import { useSelector } from "react-redux";
 import { setNewNotification } from "../store/notification.slice";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { showSuccessToast } from "../utils/toasts";
+import {
+  showErrorToast,
+  showInfoToast,
+  showSuccessToast,
+} from "../utils/toasts";
 import { useNavigate } from "react-router-dom";
 
 const WebSocket = () => {
@@ -45,12 +49,39 @@ const WebSocket = () => {
           break;
       }
     }
-
     if (newNotification.type === EnumNotificationType.TRANSFER_STATUS_CHANGED) {
       const notification = newNotification as INotification<ITransferEntity>;
       switch (notification.data.status) {
+        case EnumTransferStatuses.CREATED:
+          showInfoToast(t("notification.transferCreated"), {
+            onClick: () => {
+              navigate("/payments");
+            },
+          });
+          break;
+        case EnumTransferStatuses.INITIATED:
+          showInfoToast(t("notification.transferInitiated"), {
+            onClick: () => {
+              navigate("/payments");
+            },
+          });
+          break;
+        case EnumTransferStatuses.FAILED_TO_INITIATE:
+          showErrorToast(t("notification.transferFailedToInitiate"), {
+            onClick: () => {
+              navigate("/payments");
+            },
+          });
+          break;
         case EnumTransferStatuses.COMPLETED:
           showSuccessToast(t("notification.transferCompleted"), {
+            onClick: () => {
+              navigate("/payments");
+            },
+          });
+          break;
+        case EnumTransferStatuses.FAILED:
+          showErrorToast(t("notification.transferFailed"), {
             onClick: () => {
               navigate("/payments");
             },
