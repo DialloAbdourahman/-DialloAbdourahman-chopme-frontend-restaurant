@@ -237,7 +237,11 @@
     "preparingOrder": "La commande est en préparation",
     "inDelivery": "La commande est en cours de livraison",
     "delivered": "La commande a été livrée",
-    "transferCompleted": "Paiement reçu"
+    "transferCreated": "Demande de paiement créée",
+    "transferInitiated": "Le paiement est en cours de traitement",
+    "transferFailedToInitiate": "Le paiement n'a pas pu être initié",
+    "transferCompleted": "Paiement reçu",
+    "transferFailed": "Le paiement a échoué"
   },
 
   "order": {

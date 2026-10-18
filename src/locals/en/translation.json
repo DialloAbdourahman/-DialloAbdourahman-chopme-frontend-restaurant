@@ -237,7 +237,11 @@
     "preparingOrder": "Order is now being prepared",
     "inDelivery": "Order is now out for delivery",
     "delivered": "Order has been delivered",
-    "transferCompleted": "Payout received"
+    "transferCreated": "Payout request created",
+    "transferInitiated": "Payout is being processed",
+    "transferFailedToInitiate": "Payout could not be initiated",
+    "transferCompleted": "Payout received",
+    "transferFailed": "Payout failed"
   },
 
   "order": {
