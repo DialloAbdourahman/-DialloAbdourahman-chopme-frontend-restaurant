@@ -170,7 +170,22 @@ const TransfersSection = ({ onTransferCreated, hasWallet = true }: Props) => {
     if (!notification) return;
 
     if (notification.type === EnumNotificationType.TRANSFER_STATUS_CHANGED) {
-      fetchTransfers(page, statusFilter);
+      const updated = notification.data;
+
+      setTransfers((prev) => {
+        const matchesFilter = !statusFilter || updated.status === statusFilter;
+        const existed = prev.some((item) => item.id === updated.id);
+        const next = prev
+          .filter((item) => item.id !== updated.retriedFromTransferId)
+          .flatMap((item) =>
+            item.id === updated.id ? (matchesFilter ? [updated] : []) : [item],
+          );
+        if (!existed && matchesFilter) {
+          next.unshift(updated);
+        }
+        return next;
+      });
+
       onTransferCreated?.();
       fetchCollectibleAmount();
     } else if (
