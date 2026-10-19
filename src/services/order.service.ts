@@ -3,6 +3,7 @@ import type {
   EnumOrderStatus,
   IOrchestrationResult,
   IOrderEntity,
+  IRefundEntity,
   Pagination,
 } from "chopme-frontend-common";
 import { axiosBaseClient } from "../lib/axios";
@@ -45,6 +46,12 @@ export const OrderService = {
   getRestaurantOrder: (orderId: string) => {
     return axiosBaseClient.get<IOrchestrationResult<IOrderEntity>>(
       `/orders/${orderId}/restaurant`,
+    );
+  },
+
+  findRefund: (refundId: string) => {
+    return axiosBaseClient.get<IOrchestrationResult<IRefundEntity>>(
+      `/orders/refunds/${refundId}/restaurant`,
     );
   },
 

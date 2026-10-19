@@ -23,6 +23,7 @@ import {
   EnumStatusResponse,
   type IOrderEntity,
   type IMenuEntity,
+  type IRefundEntity,
   type IOrchestrationResult,
 } from "chopme-frontend-common";
 import { AxiosError } from "axios";
@@ -45,6 +46,7 @@ const OrderDetails = () => {
   const { t } = useTranslation();
 
   const [order, setOrder] = useState<IOrderEntity | null>(null);
+  const [refund, setRefund] = useState<IRefundEntity | null>(null);
   const [client, setClient] = useState<{
     name: string;
     phoneNumber: string;
@@ -87,6 +89,27 @@ const OrderDetails = () => {
       ) {
         const orderData = orderRes.data.data;
         setOrder(orderData);
+
+        if (
+          orderData.status === EnumOrderStatus.CANCELLED_BY_RESTAURANT &&
+          orderData.refundId
+        ) {
+          try {
+            const refundRes = await OrderService.findRefund(orderData.refundId);
+            if (
+              refundRes.data.code === EnumStatusResponse.SUCCESS &&
+              refundRes.data.statusCode ===
+                EnumStatusCode.RECOVERED_SUCCESSFULLY &&
+              refundRes.data.data
+            ) {
+              setRefund(refundRes.data.data);
+            }
+          } catch {
+            // Ignore refund fetch failures
+          }
+        } else {
+          setRefund(null);
+        }
 
         try {
           const clientRes = await OrderService.getOrderClient(orderId);
@@ -362,9 +385,7 @@ const OrderDetails = () => {
                   ? t("order.cancelledByRestaurant")
                   : t("order.cancelledByCustomer")}
               </p>
-              {order.refundStatus && (
-                <RefundStatusBadge status={order.refundStatus} />
-              )}
+              {refund && <RefundStatusBadge status={refund.status} />}
             </div>
             {order.cancelledAt && (
               <p className="text-xs text-red-600/80 mt-0.5">
