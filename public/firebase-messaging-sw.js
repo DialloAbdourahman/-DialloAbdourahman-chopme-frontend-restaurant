@@ -31,8 +31,8 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.data?.title || "New Update!";
   const notificationOptions = {
     body: payload.data?.body || "Check your app for details.",
-    icon: "/images/logos/favicon.png",
-    badge: "/images/logos/favicon.png",
+    icon: "/images/logos/notification.png",
+    badge: "/images/logos/notification.png",
     data: {
       url: payload.data?.click_action || "/", // Store a redirect URL if needed
     },
