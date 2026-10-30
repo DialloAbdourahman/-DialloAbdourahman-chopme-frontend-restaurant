@@ -1,4 +1,4 @@
-import { ChefHat, Mail, Phone } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { KEYS } from "../utils/keys";
 
@@ -11,9 +11,11 @@ const Footer = () => {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-sm">
-              <ChefHat size={22} className="text-white" />
-            </div>
+            <img
+              src="/images/logos/half.png"
+              alt="TchopVite"
+              className="h-10 w-auto "
+            />
             <p className="text-sm text-gray-400">
               © {year} {t("footer.allRightsReserved")}
             </p>

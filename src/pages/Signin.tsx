@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { EmailPasswordLoginDto } from "chopme-frontend-common";
-import { Eye, EyeOff, Mail, Lock, ChefHat } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { AxiosError } from "axios";
 import type { IOrchestrationResult, IAuthEntity } from "chopme-frontend-common";
 import {
@@ -98,12 +98,11 @@ const Signin = () => {
       <div className="w-full max-w-md">
         {/* Logo / Brand */}
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-primary rounded-2xl p-4 mb-3 shadow-lg">
-            <ChefHat size={36} className="text-white" />
-          </div>
-          <h1 className="text-3xl font-bold text-text tracking-tight">
-            ChopMe
-          </h1>
+          <img
+            src="/images/logos/full.png"
+            alt="TchopVite"
+            className="h-36 w-auto block"
+          />
           <p className="text-sm text-gray-400 mt-1">{t("auth.signinTitle")}</p>
         </div>
 

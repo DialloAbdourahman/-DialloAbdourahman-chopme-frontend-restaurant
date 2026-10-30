@@ -31,8 +31,8 @@ messaging.onBackgroundMessage((payload) => {
   const notificationTitle = payload.data?.title || "New Update!";
   const notificationOptions = {
     body: payload.data?.body || "Check your app for details.",
-    // icon: "/logo.png", // Must be a path in your public folder
-    // badge: "/badge.png", // Small icon shown in Android status bars
+    icon: "/images/logos/favicon.png",
+    badge: "/images/logos/favicon.png",
     data: {
       url: payload.data?.click_action || "/", // Store a redirect URL if needed
     },
